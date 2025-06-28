@@ -92,7 +92,7 @@ const faqData = [
     id: 1,
     question: "Apakah RuangPena gratis untuk digunakan?",
     answer:
-      "Ya, RuangPena menyediakan fitur dasar secara gratis untuk semua pengguna. Anda dapat membuat jurnal harian, jurnal syukur, dan jurnal mimpi tanpa biaya. Kami juga menyediakan paket premium dengan fitur tambahan untuk pengguna yang membutuhkan lebih banyak fungsionalitas.",
+      "Ya, RuangPena menyediakan fitur dasar secara gratis untuk semua pengguna. Anda dapat membuat jurnal harian, jurnal syukur, dan jurnal mimpi tanpa biaya.",
     category: "general",
   },
   {

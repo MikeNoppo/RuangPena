@@ -67,7 +67,7 @@ export function SiteFooter() {
                     href="#"
                     className="footer-link text-gray-600 hover:text-gray-900 text-sm transition-all duration-300 hover:translate-x-1 transform inline-block"
                   >
-                    Hubungi Kami
+                    Hubungi Saya
                   </Link>
                 </li>
                 <li>
@@ -75,7 +75,7 @@ export function SiteFooter() {
                     onClick={() => handleNavClick("#tentang")}
                     className="footer-link text-gray-600 hover:text-gray-900 text-sm transition-all duration-300 cursor-pointer hover:translate-x-1 transform"
                   >
-                    Tentang Kami
+                    Tentang RuangPena
                   </button>
                 </li>
               </ul>

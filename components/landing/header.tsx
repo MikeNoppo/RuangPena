@@ -9,7 +9,7 @@ import Link from "next/link"
 
 const navigationLinks = [
 	{ href: "#fitur", label: "Fitur" },
-	{ href: "#tentang", label: "Tentang Kami" },
+	{ href: "#tentang", label: "Tentang RuangPena" },
 ]
 
 export function SiteHeader() {
