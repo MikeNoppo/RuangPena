@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getUserByEmail, createUser } from '@/lib/database'
-import { hashPassword, validateEmail, validatePassword, generateToken, generateId } from '@/lib/auth'
-import { RegisterRequest, AuthResponse, User } from '@/lib/types'
+import { getUserByEmail, createUser } from '@/lib/database-prisma'
+import { hashPassword, validateEmail, validatePassword, generateToken } from '@/lib/auth'
+import { RegisterRequest, AuthResponse } from '@/lib/types'
 
 export async function POST(request: NextRequest) {
   try {
@@ -43,22 +43,17 @@ export async function POST(request: NextRequest) {
 
     // Create new user
     const hashedPassword = await hashPassword(password)
-    const newUser: User = {
-      id: generateId(),
+    const newUser = await createUser({
       email,
-      hashedPassword,
-      name: name || '',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    }
-
-    await createUser(newUser)
+      password: hashedPassword,
+      name: name || undefined
+    })
 
     // Generate token
     const token = generateToken(newUser.id)
 
     // Return success response without password
-    const { hashedPassword: _, ...userWithoutPassword } = newUser
+    const { password: _, ...userWithoutPassword } = newUser
 
     return NextResponse.json({
       success: true,

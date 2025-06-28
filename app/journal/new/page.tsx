@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useAuth } from "@/contexts/AuthContext"
 import { useRouter } from "next/navigation"
 import { CreateJournalRequest, ApiResponse, JournalEntry } from "@/lib/types"
+import { JournalType } from "@prisma/client"
 
 export default function NewJournalEntry() {
   const { user, token } = useAuth()
@@ -46,9 +47,9 @@ export default function NewJournalEntry() {
 
     try {
       const requestData: CreateJournalRequest = {
-        title: title.trim(),
+        title: title.trim() || null,
         content: content.trim(),
-        type: journalType as 'daily' | 'gratitude' | 'dream' | 'bullet',
+        type: journalType as JournalType,
         tags: [] // We can add tag extraction later
       }
 
@@ -78,12 +79,14 @@ export default function NewJournalEntry() {
 
   const getPlaceholderText = () => {
     switch (journalType) {
-      case "daily":
+      case JournalType.DAILY:
         return "Bagaimana hari Anda? Pikiran, perasaan, atau pengalaman apa yang ingin Anda tuangkan?"
-      case "gratitude":
+      case JournalType.GRATITUDE:
         return "Apa yang Anda syukuri hari ini? Luangkan waktu untuk menghargai hal-hal baik dalam hidup Anda..."
-      case "dream":
+      case JournalType.DREAM:
         return "Ceritakan mimpi Anda dengan detail sebanyak yang Anda ingat. Apa yang Anda lihat, rasakan, atau alami?"
+      case JournalType.BULLET:
+        return "Buat daftar bullet points untuk hari ini. Gunakan • untuk tugas, ★ untuk prioritas, dan → untuk catatan..."
       default:
         return "Mulai tulis pikiran Anda di sini..."
     }
@@ -129,9 +132,10 @@ export default function NewJournalEntry() {
                 <SelectValue placeholder="Pilih jenis jurnal" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="daily">Jurnal Harian</SelectItem>
-                <SelectItem value="gratitude">Jurnal Syukur</SelectItem>
-                <SelectItem value="dream">Jurnal Mimpi</SelectItem>
+                <SelectItem value={JournalType.DAILY}>Jurnal Harian</SelectItem>
+                <SelectItem value={JournalType.GRATITUDE}>Jurnal Syukur</SelectItem>
+                <SelectItem value={JournalType.DREAM}>Jurnal Mimpi</SelectItem>
+                <SelectItem value={JournalType.BULLET}>Jurnal Bullet</SelectItem>
               </SelectContent>
             </Select>
           </div>

@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react'
 import { User, AuthResponse } from '@/lib/types'
 
 interface AuthContextType {
-  user: Omit<User, 'hashedPassword'> | null
+  user: Omit<User, 'password'> | null
   token: string | null
   login: (email: string, password: string) => Promise<AuthResponse>
   register: (email: string, password: string, confirmPassword: string, name?: string) => Promise<AuthResponse>
@@ -15,7 +15,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<Omit<User, 'hashedPassword'> | null>(null)
+  const [user, setUser] = useState<Omit<User, 'password'> | null>(null)
   const [token, setToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 

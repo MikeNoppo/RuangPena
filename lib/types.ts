@@ -1,24 +1,10 @@
 // Type definitions for the RuangPena application
+import { User as PrismaUser, Journal as PrismaJournal, JournalType } from '@prisma/client'
 
-export interface User {
-  id: string
-  email: string
-  hashedPassword: string
-  name?: string
-  createdAt: string
-  updatedAt: string
-}
+export interface User extends PrismaUser {}
 
-export interface JournalEntry {
-  id: string
-  userId: string
-  title: string
-  content: string
-  type: 'daily' | 'gratitude' | 'dream' | 'bullet'
+export interface JournalEntry extends PrismaJournal {
   typeName: string
-  tags: string[]
-  createdAt: string
-  updatedAt: string
 }
 
 export interface LoginRequest {
@@ -34,23 +20,23 @@ export interface RegisterRequest {
 }
 
 export interface CreateJournalRequest {
-  title: string
+  title?: string | null
   content: string
-  type: 'daily' | 'gratitude' | 'dream' | 'bullet'
+  type: JournalType
   tags?: string[]
 }
 
 export interface UpdateJournalRequest {
-  title?: string
+  title?: string | null
   content?: string
-  type?: 'daily' | 'gratitude' | 'dream' | 'bullet'
+  type?: JournalType
   tags?: string[]
 }
 
 export interface AuthResponse {
   success: boolean
   message: string
-  user?: Omit<User, 'hashedPassword'>
+  user?: Omit<User, 'password'>
   token?: string
 }
 
@@ -60,9 +46,14 @@ export interface ApiResponse<T = any> {
   data?: T
 }
 
-export const JOURNAL_TYPES = {
-  daily: 'Jurnal Harian',
-  gratitude: 'Jurnal Syukur',
-  dream: 'Jurnal Mimpi',
-  bullet: 'Jurnal Bullet'
+export const JOURNAL_TYPES: Record<JournalType, string> = {
+  DAILY: 'Jurnal Harian',
+  GRATITUDE: 'Jurnal Syukur',
+  DREAM: 'Jurnal Mimpi',
+  BULLET: 'Jurnal Bullet'
 } as const
+
+// Map Prisma enum to display names
+export function getJournalTypeName(type: JournalType): string {
+  return JOURNAL_TYPES[type] || 'Unknown'
+}

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getUserByEmail } from '@/lib/database'
+import { getUserByEmail } from '@/lib/database-prisma'
 import { verifyPassword, generateToken, validateEmail } from '@/lib/auth'
 import { LoginRequest, AuthResponse } from '@/lib/types'
 
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify password
-    const isPasswordValid = await verifyPassword(password, user.hashedPassword)
+    const isPasswordValid = await verifyPassword(password, user.password)
     if (!isPasswordValid) {
       return NextResponse.json({
         success: false,
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     const token = generateToken(user.id)
 
     // Return success response without password
-    const { hashedPassword: _, ...userWithoutPassword } = user
+    const { password: _, ...userWithoutPassword } = user
 
     return NextResponse.json({
       success: true,

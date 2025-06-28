@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getJournalById, updateJournal, deleteJournal } from '@/lib/database'
+import { getJournalById, updateJournal, deleteJournal } from '@/lib/database-prisma'
 import { verifyToken } from '@/lib/auth'
 import { UpdateJournalRequest, ApiResponse, JournalEntry, JOURNAL_TYPES } from '@/lib/types'
 
@@ -110,7 +110,7 @@ export async function PUT(
 
     // Prepare updates
     const updates: Partial<JournalEntry> = {}
-    if (title !== undefined) updates.title = title.trim()
+    if (title !== undefined) updates.title = title?.trim() || null
     if (content !== undefined) updates.content = content.trim()
     if (type !== undefined) {
       updates.type = type

@@ -111,7 +111,7 @@ export default function HistoryPage() {
       const query = searchQuery.toLowerCase()
       filtered = filtered.filter(
         entry =>
-          entry.title.toLowerCase().includes(query) ||
+          (entry.title?.toLowerCase() || '').includes(query) ||
           entry.content.toLowerCase().includes(query) ||
           entry.tags.some(tag => tag.toLowerCase().includes(query))
       )
@@ -303,8 +303,8 @@ export default function HistoryPage() {
                           ? "Mulai perjalanan refleksi Anda dengan menulis jurnal pertama."
                           : "Coba ubah filter atau kata kunci pencarian Anda."
                       }
-                      actionLabel={journalEntries.length === 0 ? "Tulis Jurnal Pertama" : undefined}
-                      onAction={journalEntries.length === 0 ? () => router.push('/journal/new') : undefined}
+                      buttonText={journalEntries.length === 0 ? "Tulis Jurnal Pertama" : undefined}
+                      buttonHref={journalEntries.length === 0 ? "/journal/new" : undefined}
                     />
                   ) : (
                     filteredAndSortedJournals.map((entry) => {

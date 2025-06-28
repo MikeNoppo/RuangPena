@@ -42,8 +42,3 @@ export function validateEmail(email: string): string | null {
   if (!emailRegex.test(email)) return 'Mohon masukkan alamat email yang valid'
   return null
 }
-
-// Generate unique ID
-export function generateId(): string {
-  return Date.now().toString(36) + Math.random().toString(36).substr(2)
-}

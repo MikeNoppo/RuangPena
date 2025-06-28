@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getJournalsByUserId, createJournal, getJournalById, updateJournal, deleteJournal } from '@/lib/database'
-import { verifyToken, generateId } from '@/lib/auth'
+import { getJournalsByUserId, createJournal, getJournalById, updateJournal, deleteJournal } from '@/lib/database-prisma'
+import { verifyToken } from '@/lib/auth'
 import { CreateJournalRequest, UpdateJournalRequest, ApiResponse, JournalEntry, JOURNAL_TYPES } from '@/lib/types'
 
 // Helper function to get user from token
@@ -76,19 +76,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Create new journal entry
-    const newJournal: JournalEntry = {
-      id: generateId(),
+    const newJournal = await createJournal({
       userId,
-      title: title.trim() || '',
+      title: title?.trim() || null,
       content: content.trim(),
       type,
-      typeName: JOURNAL_TYPES[type],
-      tags: tags.filter(tag => tag.trim()).map(tag => tag.trim()),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    }
-
-    await createJournal(newJournal)
+      tags: tags.filter(tag => tag.trim()).map(tag => tag.trim())
+    })
 
     return NextResponse.json({
       success: true,
