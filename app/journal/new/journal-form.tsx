@@ -1,6 +1,4 @@
-"use client"
-
-import { Suspense, useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -11,7 +9,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { CreateJournalRequest, ApiResponse, JournalEntry } from "@/lib/types"
 import { JournalType } from "@prisma/client"
 
-function JournalForm() {
+export default function JournalForm() {
   const { user, token, loading: authLoading } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -229,13 +227,5 @@ function JournalForm() {
         )}
       </div>
     </div>
-  )
-}
-
-export default function NewJournalPage() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <JournalForm />
-    </Suspense>
   )
 }
