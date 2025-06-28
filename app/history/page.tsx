@@ -18,6 +18,8 @@ import { BookOpen, Heart, Moon, Target, Search, Filter, X, SortAsc, SortDesc } f
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
 
+type SortOption = "date-desc" | "date-asc" | "title-asc" | "title-desc"
+
 export default function HistoryPage() {
   const { user, token } = useAuth()
   const router = useRouter()
@@ -27,6 +29,7 @@ export default function HistoryPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [filterType, setFilterType] = useState<string>("all")
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc")
+  const [sortBy, setSortBy] = useState<SortOption>("date-desc")
 
   // Redirect if not logged in
   useEffect(() => {
@@ -65,26 +68,26 @@ export default function HistoryPage() {
 
   // Get icon and colors for journal types
   const getJournalTypeInfo = (type: string) => {
-    switch (type) {
-      case 'daily':
+    switch (type.toUpperCase()) {
+      case 'DAILY':
         return {
           icon: BookOpen,
           color: "bg-blue-100 text-blue-700 border-blue-200",
           iconColor: "text-blue-600"
         }
-      case 'gratitude':
+      case 'GRATITUDE':
         return {
           icon: Heart,
           color: "bg-pink-100 text-pink-700 border-pink-200",
           iconColor: "text-pink-600"
         }
-      case 'dream':
+      case 'DREAM':
         return {
           icon: Moon,
           color: "bg-purple-100 text-purple-700 border-purple-200",
           iconColor: "text-purple-600"
         }
-      case 'bullet':
+      case 'BULLET':
         return {
           icon: Target,
           color: "bg-teal-100 text-teal-700 border-teal-200",
@@ -116,24 +119,33 @@ export default function HistoryPage() {
 
     // Filter by type
     if (filterType !== "all") {
-      filtered = filtered.filter(entry => entry.type === filterType)
+      filtered = filtered.filter(entry => entry.type === filterType.toUpperCase())
     }
 
     // Sort
     filtered.sort((a, b) => {
-      const dateA = new Date(a.createdAt).getTime()
-      const dateB = new Date(b.createdAt).getTime()
-      return sortOrder === "desc" ? dateB - dateA : dateA - dateB
+      switch (sortBy) {
+        case "date-desc":
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        case "date-asc":
+          return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        case "title-asc":
+          return (a.title || '').localeCompare(b.title || '')
+        case "title-desc":
+          return (b.title || '').localeCompare(a.title || '')
+        default:
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      }
     })
 
     return filtered
-  }, [journalEntries, searchQuery, filterType, sortOrder])
+  }, [journalEntries, searchQuery, filterType, sortBy])
 
   // Clear all filters
   const clearAllFilters = () => {
     setSearchQuery("")
     setFilterType("all")
-    setSortOrder("desc")
+    setSortBy("date-desc")
   }
 
   // Get active filter count
@@ -143,6 +155,30 @@ export default function HistoryPage() {
     if (filterType !== "all") count++
     return count
   }, [searchQuery, filterType])
+
+  const hasActiveFilters = searchQuery || filterType !== "all"
+
+  // Highlight search terms in text
+  const highlightSearchTerm = (text: string, searchTerm: string) => {
+    if (!searchTerm.trim()) return text
+
+    const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi")
+    const parts = text.split(regex)
+
+    return parts.map((part, index) =>
+      regex.test(part) ? (
+        <mark key={index} className="bg-yellow-200 text-yellow-900 px-1 rounded">
+          {part}
+        </mark>
+      ) : (
+        part
+      ),
+    )
+  }
+
+  // Check if this is truly empty (no entries at all) vs filtered empty
+  const isCompletelyEmpty = journalEntries.length === 0 && !loading
+  const isFilteredEmpty = filteredAndSortedJournals.length === 0 && journalEntries.length > 0 && !loading
 
   if (!user) {
     return null // Will redirect in useEffect
@@ -154,82 +190,174 @@ export default function HistoryPage() {
       <SidebarInset>
         <div className="flex h-full flex-col">
           {/* Header */}
-          <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+          <header className="flex h-16 shrink-0 items-center gap-2 border-b border-gray-100 px-4 sm:px-6">
             <SidebarTrigger className="-ml-1" />
-            <div className="flex items-center gap-2 px-4">
-              <BookOpen className="h-6 w-6 text-teal-600" />
-              <h1 className="text-xl font-semibold">Riwayat Jurnal</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-lg sm:text-xl font-medium text-gray-900">Riwayat Catatan Anda</h1>
             </div>
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 overflow-auto p-4 md:p-6">
-            <div className="max-w-4xl mx-auto space-y-6">
-              {/* Search and Filter Bar */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                {/* Search Input */}
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                  <Input
-                    placeholder="Cari berdasarkan judul, konten, atau tag..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 h-10"
-                  />
-                </div>
+          <main className="flex-1 overflow-auto p-4 sm:p-6">
+            <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
+              {/* Only show page title and filters if not loading and not completely empty */}
+              {!loading && !isCompletelyEmpty && (
+                <>
 
-                {/* Filter Controls */}
-                <div className="flex gap-2">
-                  {/* Type Filter */}
-                  <Select value={filterType} onValueChange={setFilterType}>
-                    <SelectTrigger className="w-40">
-                      <SelectValue placeholder="Jenis" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">Semua Jenis</SelectItem>
-                      <SelectItem value="daily">Jurnal Harian</SelectItem>
-                      <SelectItem value="gratitude">Jurnal Syukur</SelectItem>
-                      <SelectItem value="dream">Jurnal Mimpi</SelectItem>
-                      <SelectItem value="bullet">Jurnal Bullet</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  {/* Enhanced Filter Section */}
+                  <Card className="border-0 shadow-sm">
+                    <CardContent className="p-4 sm:p-6">
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2 mb-4">
+                          <Filter className="h-4 w-4 text-gray-500" />
+                          <h3 className="text-sm font-medium text-gray-700">Filter & Pencarian</h3>
+                          {hasActiveFilters && (
+                            <Badge variant="secondary" className="ml-2 bg-teal-100 text-teal-700">
+                              {[
+                                searchQuery && "Pencarian",
+                                filterType !== "all" && "Tipe",
+                              ]
+                                .filter(Boolean)
+                                .join(", ")}
+                            </Badge>
+                          )}
+                        </div>
 
-                  {/* Sort Order */}
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setSortOrder(sortOrder === "desc" ? "asc" : "desc")}
-                    className="px-3"
-                  >
-                    {sortOrder === "desc" ? <SortDesc className="h-4 w-4" /> : <SortAsc className="h-4 w-4" />}
-                  </Button>
+                        {/* Main Filter Row */}
+                        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+                          {/* Enhanced Search Bar */}
+                          <div className="relative lg:col-span-2">
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                            <Input
+                              type="text"
+                              placeholder="Cari di dalam catatan..."
+                              value={searchQuery}
+                              onChange={(e) => setSearchQuery(e.target.value)}
+                              className="pl-10 h-10 sm:h-11 border-gray-200 focus:border-teal-500 focus:ring-teal-500"
+                            />
+                            {searchQuery && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setSearchQuery("")}
+                                className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 text-gray-400 hover:text-gray-600"
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            )}
+                          </div>
 
-                  {/* Clear Filters */}
-                  {activeFilterCount > 0 && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={clearAllFilters}
-                      className="px-3"
-                    >
-                      <X className="h-4 w-4" />
-                      Bersihkan ({activeFilterCount})
-                    </Button>
-                  )}
-                </div>
-              </div>
+                          {/* Journal Type Filter */}
+                          <div>
+                            <Select value={filterType} onValueChange={setFilterType}>
+                              <SelectTrigger className="h-10 sm:h-11 border-gray-200 focus:border-teal-500 focus:ring-teal-500">
+                                <SelectValue placeholder="Semua Tipe" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="all">Semua Tipe</SelectItem>
+                                <SelectItem value="DAILY">Jurnal Harian</SelectItem>
+                                <SelectItem value="GRATITUDE">Jurnal Syukur</SelectItem>
+                                <SelectItem value="DREAM">Jurnal Mimpi</SelectItem>
+                                <SelectItem value="BULLET">Jurnal Bullet</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
 
-              {/* Loading State */}
-              {loading && (
-                <div className="space-y-4">
-                  {Array.from({ length: 3 }).map((_, i) => (
-                    <SkeletonLoader key={i} />
-                  ))}
-                </div>
+                          {/* Sort Options */}
+                          <div>
+                            <Select value={sortBy} onValueChange={(value: SortOption) => setSortBy(value)}>
+                              <SelectTrigger className="h-10 sm:h-11 border-gray-200 focus:border-teal-500 focus:ring-teal-500">
+                                <SelectValue placeholder="Urutkan" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="date-desc">
+                                  <div className="flex items-center gap-2">
+                                    <SortDesc className="h-4 w-4" />
+                                    Terbaru
+                                  </div>
+                                </SelectItem>
+                                <SelectItem value="date-asc">
+                                  <div className="flex items-center gap-2">
+                                    <SortAsc className="h-4 w-4" />
+                                    Terlama
+                                  </div>
+                                </SelectItem>
+                                <SelectItem value="title-asc">
+                                  <div className="flex items-center gap-2">
+                                    <SortAsc className="h-4 w-4" />
+                                    Judul A-Z
+                                  </div>
+                                </SelectItem>
+                                <SelectItem value="title-desc">
+                                  <div className="flex items-center gap-2">
+                                    <SortDesc className="h-4 w-4" />
+                                    Judul Z-A
+                                  </div>
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Enhanced Results Summary */}
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div className="space-y-1">
+                      <p className="text-sm text-gray-600">
+                        Menampilkan <span className="font-medium">{filteredAndSortedJournals.length}</span> dari{" "}
+                        <span className="font-medium">{journalEntries.length}</span> catatan
+                      </p>
+                      {searchQuery && (
+                        <p className="text-xs text-gray-500">
+                          Hasil pencarian untuk: <span className="font-medium">"{searchQuery}"</span>
+                        </p>
+                      )}
+                    </div>
+                    {hasActiveFilters && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={clearAllFilters}
+                        className="text-teal-600 hover:text-teal-700 hover:bg-teal-50"
+                      >
+                        <X className="h-4 w-4 mr-1" />
+                        Hapus Semua Filter
+                      </Button>
+                    )}
+                  </div>
+                </>
               )}
 
-              {/* Error State */}
-              {error && (
+              {/* Content Area */}
+              {loading ? (
+                /* Loading State */
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <div className="h-8 sm:h-9 bg-gray-200 rounded animate-pulse w-1/2"></div>
+                    <div className="h-5 sm:h-6 bg-gray-200 rounded animate-pulse w-3/4"></div>
+                  </div>
+                  <Card className="border-0 shadow-sm">
+                    <CardContent className="p-4 sm:p-6">
+                      <div className="space-y-4">
+                        <div className="h-5 bg-gray-200 rounded animate-pulse w-1/4"></div>
+                        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+                          <div className="lg:col-span-2 h-10 sm:h-11 bg-gray-200 rounded animate-pulse"></div>
+                          <div className="h-10 sm:h-11 bg-gray-200 rounded animate-pulse"></div>
+                          <div className="h-10 sm:h-11 bg-gray-200 rounded animate-pulse"></div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <div className="space-y-4">
+                    {Array.from({ length: 3 }).map((_, i) => (
+                      <SkeletonLoader key={i} />
+                    ))}
+                  </div>
+                </div>
+              ) : error ? (
+                /* Error State */
                 <div className="p-4 rounded-md bg-red-50 border border-red-200">
                   <p className="text-sm text-red-600 flex items-center gap-2">
                     <span className="text-red-500">⚠</span>
@@ -244,89 +372,125 @@ export default function HistoryPage() {
                     Coba Lagi
                   </Button>
                 </div>
-              )}
-
-              {/* Results Count */}
-              {!loading && !error && (
-                <div className="text-sm text-gray-600">
-                  Menampilkan {filteredAndSortedJournals.length} dari {journalEntries.length} entri jurnal
-                </div>
-              )}
-
-              {/* Journal Entries */}
-              {!loading && !error && (
-                <div className="space-y-4">
-                  {filteredAndSortedJournals.length === 0 ? (
-                    <EmptyState
-                      title={journalEntries.length === 0 ? "Belum ada jurnal" : "Tidak ada hasil"}
-                      description={
-                        journalEntries.length === 0
-                          ? "Mulai perjalanan refleksi Anda dengan menulis jurnal pertama."
-                          : "Coba ubah filter atau kata kunci pencarian Anda."
-                      }
-                      buttonText={journalEntries.length === 0 ? "Tulis Jurnal Pertama" : undefined}
-                      buttonHref={journalEntries.length === 0 ? "/journal/new" : undefined}
-                    />
-                  ) : (
-                    filteredAndSortedJournals.map((entry) => {
-                      const typeInfo = getJournalTypeInfo(entry.type)
-                      const Icon = typeInfo.icon
-
-                      return (
-                        <Card
-                          key={entry.id}
-                          className="hover:shadow-lg transition-all duration-200 border-l-4 border-l-teal-500 cursor-pointer"
-                          onClick={() => router.push(`/journal/${entry.id}`)}
+              ) : isCompletelyEmpty ? (
+                /* Complete Empty State */
+                <EmptyState
+                  title="Belum ada jurnal"
+                  description="Mulai perjalanan refleksi Anda dengan menulis jurnal pertama."
+                  buttonText="Tulis Jurnal Pertama"
+                  buttonHref="/journal/new"
+                />
+              ) : isFilteredEmpty ? (
+                /* Filtered Empty State */
+                <Card className="border-0 shadow-sm">
+                  <CardContent className="p-8 sm:p-12 text-center">
+                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Search className="h-8 w-8 text-gray-400" />
+                    </div>
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">Tidak ada catatan ditemukan</h3>
+                    <p className="text-gray-600 mb-6">
+                      {searchQuery
+                        ? `Tidak ada hasil untuk "${searchQuery}". Coba kata kunci lain atau ubah filter.`
+                        : "Coba ubah filter yang Anda gunakan untuk melihat hasil lainnya."}
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-2 justify-center">
+                      {searchQuery && (
+                        <Button
+                          variant="outline"
+                          onClick={() => setSearchQuery("")}
+                          className="border-gray-200 hover:bg-gray-50"
                         >
-                          <CardContent className="p-6">
-                            <div className="flex items-start justify-between gap-4">
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-3 mb-3">
-                                  <div className={`p-2 rounded-lg ${typeInfo.color}`}>
-                                    <Icon className={`h-4 w-4 ${typeInfo.iconColor}`} />
-                                  </div>
-                                  <div className="flex-1">
-                                    <Badge variant="secondary" className={`${typeInfo.color} border text-xs`}>
-                                      {entry.typeName}
-                                    </Badge>
-                                    <p className="text-sm text-gray-500 mt-1">
-                                      {format(new Date(entry.createdAt), 'dd MMMM yyyy • HH:mm', { locale: id })}
-                                    </p>
-                                  </div>
-                                </div>
+                          Hapus Pencarian
+                        </Button>
+                      )}
+                      <Button onClick={clearAllFilters} className="bg-teal-600 hover:bg-teal-700 text-white">
+                        Tampilkan Semua Catatan
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : (
+                /* Enhanced Journal Entries List */
+                <div className="space-y-4">
+                  {filteredAndSortedJournals.map((entry) => {
+                    const typeInfo = getJournalTypeInfo(entry.type)
+                    const Icon = typeInfo.icon
 
-                                <h3 className="font-medium text-gray-900 mb-2 line-clamp-1">
-                                  {entry.title || 'Tanpa Judul'}
-                                </h3>
-
-                                <p className="text-gray-600 line-clamp-3 text-sm leading-relaxed mb-3">
-                                  {entry.content}
-                                </p>
-
-                                {entry.tags.length > 0 && (
-                                  <div className="flex flex-wrap gap-1">
-                                    {entry.tags.slice(0, 3).map((tag) => (
-                                      <Badge
-                                        key={tag}
-                                        variant="outline"
-                                        className="text-xs text-gray-600 bg-gray-50"
-                                      >
-                                        #{tag}
-                                      </Badge>
-                                    ))}
-                                    {entry.tags.length > 3 && (
-                                      <Badge variant="outline" className="text-xs text-gray-600 bg-gray-50">
-                                        +{entry.tags.length - 3} lagi
-                                      </Badge>
-                                    )}
-                                  </div>
-                                )}
+                    return (
+                      <Card
+                        key={entry.id}
+                        className="border-0 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer group"
+                        onClick={() => router.push(`/journal/${entry.id}`)}
+                      >
+                        <CardContent className="p-4 sm:p-6">
+                          <div className="flex items-start gap-3 sm:gap-4">
+                            {/* Journal Type Icon */}
+                            <div className="flex-shrink-0">
+                              <div className="h-10 w-10 sm:h-12 sm:w-12 bg-white rounded-lg shadow-sm border flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                                <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${typeInfo.iconColor}`} />
                               </div>
                             </div>
-                          </CardContent>
-                        </Card>
-                      )
-                    })
+
+                            {/* Entry Content */}
+                            <div className="flex-1 min-w-0 space-y-2 sm:space-y-3">
+                              {/* Title and Date */}
+                              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4">
+                                <h3 className="text-base sm:text-lg font-medium text-gray-900 group-hover:text-teal-700 transition-colors">
+                                  {highlightSearchTerm(entry.title || 'Tanpa Judul', searchQuery)}
+                                </h3>
+                                <p className="text-xs sm:text-sm text-gray-500 whitespace-nowrap">
+                                  {format(new Date(entry.createdAt), 'dd MMMM yyyy • HH:mm', { locale: id })}
+                                </p>
+                              </div>
+
+                              {/* Journal Type Badge */}
+                              <div className="flex items-center gap-2">
+                                <span
+                                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${typeInfo.color}`}
+                                >
+                                  <Icon className="h-3 w-3" />
+                                  {entry.typeName}
+                                </span>
+                              </div>
+
+                              {/* Content Preview with Search Highlighting */}
+                              <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+                                {highlightSearchTerm(entry.content, searchQuery)}
+                              </p>
+
+                              {/* Tags */}
+                              {entry.tags && entry.tags.length > 0 && (
+                                <div className="flex flex-wrap gap-1 mt-2">
+                                  {entry.tags.slice(0, 3).map((tag, index) => (
+                                    <Badge
+                                      key={index}
+                                      variant="secondary"
+                                      className="text-xs bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                    >
+                                      {highlightSearchTerm(tag, searchQuery)}
+                                    </Badge>
+                                  ))}
+                                  {entry.tags.length > 3 && (
+                                    <Badge variant="secondary" className="text-xs bg-gray-100 text-gray-600">
+                                      +{entry.tags.length - 3}
+                                    </Badge>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )
+                  })}
+
+                  {/* Load More Button (if needed) */}
+                  {filteredAndSortedJournals.length >= 10 && (
+                    <div className="text-center pt-4">
+                      <Button variant="outline" className="border-gray-200 hover:bg-gray-50 bg-transparent">
+                        Muat Lebih Banyak
+                      </Button>
+                    </div>
                   )}
                 </div>
               )}
