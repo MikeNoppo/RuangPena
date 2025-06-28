@@ -1,4 +1,3 @@
-
 "use client"
 
 import type React from "react"
@@ -113,7 +112,7 @@ export default function RegisterForm() {
           placeholder="Masukkan nama Anda"
           value={formData.name}
           onChange={(e) => handleInputChange("name", e.target.value)}
-          className="h-11 sm:h-12 border-gray-200 focus:border-teal-500 focus:ring-teal-500 text-sm sm:text-base"
+          className="h-11 sm:h-12 border-earth-200 focus:border-earth-500 focus:ring-earth-500 text-sm sm:text-base"
         />
       </div>
       <div className="space-y-2">
@@ -126,7 +125,7 @@ export default function RegisterForm() {
           placeholder="Masukkan email Anda"
           value={formData.email}
           onChange={(e) => handleInputChange("email", e.target.value)}
-          className={`h-11 sm:h-12 border-gray-200 focus:border-teal-500 focus:ring-teal-500 text-sm sm:text-base ${
+          className={`h-11 sm:h-12 border-earth-200 focus:border-earth-500 focus:ring-earth-500 text-sm sm:text-base ${
             errors.email ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""
           }`}
           required
@@ -148,7 +147,7 @@ export default function RegisterForm() {
           placeholder="Masukkan kata sandi Anda"
           value={formData.password}
           onChange={(e) => handleInputChange("password", e.target.value)}
-          className={`h-11 sm:h-12 border-gray-200 focus:border-teal-500 focus:ring-teal-500 text-sm sm:text-base ${
+          className={`h-11 sm:h-12 border-earth-200 focus:border-earth-500 focus:ring-earth-500 text-sm sm:text-base ${
             errors.password ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""
           }`}
           required
@@ -163,16 +162,16 @@ export default function RegisterForm() {
           <div className="text-xs text-gray-500 space-y-1">
             <p>Kata sandi harus mengandung:</p>
             <ul className="ml-4 space-y-1">
-              <li className={formData.password.length >= 8 ? "text-teal-600" : "text-gray-400"}>
+              <li className={formData.password.length >= 8 ? "text-earth-600" : "text-gray-400"}>
                 ✓ Minimal 8 karakter
               </li>
-              <li className={/(?=.*[a-z])/.test(formData.password) ? "text-teal-600" : "text-gray-400"}>
+              <li className={/(?=.*[a-z])/.test(formData.password) ? "text-earth-600" : "text-gray-400"}>
                 ✓ Satu huruf kecil
               </li>
-              <li className={/(?=.*[A-Z])/.test(formData.password) ? "text-teal-600" : "text-gray-400"}>
+              <li className={/(?=.*[A-Z])/.test(formData.password) ? "text-earth-600" : "text-gray-400"}>
                 ✓ Satu huruf besar
               </li>
-              <li className={/(?=.*\d)/.test(formData.password) ? "text-teal-600" : "text-gray-400"}>
+              <li className={/(?=.*\d)/.test(formData.password) ? "text-earth-600" : "text-gray-400"}>
                 ✓ Satu angka
               </li>
             </ul>
@@ -189,7 +188,7 @@ export default function RegisterForm() {
           placeholder="Konfirmasi kata sandi Anda"
           value={formData.confirmPassword}
           onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
-          className={`h-11 sm:h-12 border-gray-200 focus:border-teal-500 focus:ring-teal-500 text-sm sm:text-base ${
+          className={`h-11 sm:h-12 border-earth-200 focus:border-earth-500 focus:ring-earth-500 text-sm sm:text-base ${
             errors.confirmPassword ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""
           }`}
           required
@@ -203,8 +202,8 @@ export default function RegisterForm() {
         {!errors.confirmPassword &&
           formData.confirmPassword &&
           formData.password === formData.confirmPassword && (
-            <p className="text-xs sm:text-sm text-teal-600 flex items-center gap-1">
-              <span className="text-teal-500">✓</span>
+            <p className="text-xs sm:text-sm text-earth-600 flex items-center gap-1">
+              <span className="text-earth-500">✓</span>
               Kata sandi cocok
             </p>
           )}
@@ -212,7 +211,7 @@ export default function RegisterForm() {
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="w-full h-11 sm:h-12 bg-teal-600 hover:bg-teal-700 text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
+        className="w-full h-11 sm:h-12 bg-earth-400 hover:bg-earth-500 text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base border-0"
       >
         {isSubmitting ? (
           <div className="flex items-center gap-2">

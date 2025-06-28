@@ -14,38 +14,38 @@ import { formatDistanceToNow } from "date-fns"
 import { id } from "date-fns/locale"
 import { SkeletonLoader } from "@/components/skeleton-loader"
 
-// Dashboard shortcuts
+// Dashboard shortcuts with warm earth tone colors
 const shortcuts = [
   {
     title: "Mulai Jurnal Harian Anda",
     description: "Refleksikan hari Anda dan tuangkan pikiran Anda",
     icon: BookOpen,
-    color: "bg-blue-50 hover:bg-blue-100 border-blue-200",
-    iconColor: "text-blue-600",
+    color: "bg-earth-50 hover:bg-earth-100 border-earth-200",
+    iconColor: "text-earth-600",
     type: JournalType.DAILY,
   },
   {
     title: "Tulis Jurnal Syukur",
     description: "Fokus pada hal-hal yang Anda syukuri hari ini",
     icon: Heart,
-    color: "bg-pink-50 hover:bg-pink-100 border-pink-200",
-    iconColor: "text-pink-600",
+    color: "bg-warm-50 hover:bg-warm-100 border-warm-200",
+    iconColor: "text-warm-600",
     type: JournalType.GRATITUDE,
   },
   {
     title: "Buat Jurnal Bullet",
     description: "Atur tugas dan tujuan Anda dengan penuh kesadaran",
     icon: Target,
-    color: "bg-teal-50 hover:bg-teal-100 border-teal-200",
-    iconColor: "text-teal-600",
+    color: "bg-earth-50 hover:bg-earth-100 border-earth-200",
+    iconColor: "text-earth-600",
     type: JournalType.BULLET,
   },
   {
     title: "Catat Mimpi",
     description: "Rekam dan jelajahi perjalanan malam Anda",
     icon: Moon,
-    color: "bg-purple-50 hover:bg-purple-100 border-purple-200",
-    iconColor: "text-purple-600",
+    color: "bg-warm-50 hover:bg-warm-100 border-warm-200",
+    iconColor: "text-warm-600",
     type: JournalType.DREAM,
   },
 ]
@@ -164,29 +164,29 @@ export default function Dashboard() {
       case JournalType.DAILY:
         return {
           icon: BookOpen,
-          color: "bg-blue-100",
-          iconColor: "text-blue-600",
+          color: "bg-earth-100",
+          iconColor: "text-earth-600",
           name: "Jurnal Harian"
         }
       case JournalType.GRATITUDE:
         return {
           icon: Heart,
-          color: "bg-pink-100", 
-          iconColor: "text-pink-600",
+          color: "bg-warm-100", 
+          iconColor: "text-warm-600",
           name: "Jurnal Syukur"
         }
       case JournalType.DREAM:
         return {
           icon: Moon,
-          color: "bg-purple-100",
-          iconColor: "text-purple-600", 
+          color: "bg-warm-100",
+          iconColor: "text-warm-600", 
           name: "Jurnal Mimpi"
         }
       case JournalType.BULLET:
         return {
           icon: Target,
-          color: "bg-teal-100",
-          iconColor: "text-teal-600",
+          color: "bg-earth-100",
+          iconColor: "text-earth-600",
           name: "Jurnal Bullet"
         }
       default:
@@ -209,7 +209,7 @@ export default function Dashboard() {
       <AppSidebar />
       <SidebarInset>
         {/* Header */}
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b border-gray-100 px-4 sm:px-6">
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b border-earth-200 px-4 sm:px-6">
           <SidebarTrigger className="-ml-1" />
           <div className="ml-auto flex items-center gap-2 sm:gap-4">
             <div className="text-xs sm:text-sm text-gray-600">
@@ -217,7 +217,7 @@ export default function Dashboard() {
             </div>
             <Button 
               size="sm" 
-              className="bg-teal-600 hover:bg-teal-700 text-xs sm:text-sm"
+              className="bg-earth-400 hover:bg-earth-500 text-white text-xs sm:text-sm border-0"
               onClick={() => router.push('/journal/new')}
             >
               <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
@@ -249,8 +249,8 @@ export default function Dashboard() {
                       <p className="text-xs sm:text-sm font-medium text-gray-600">Total Entri</p>
                       <p className="text-xl sm:text-2xl font-bold text-gray-900">{loading ? "..." : journalEntries.length}</p>
                     </div>
-                    <div className="h-10 w-10 sm:h-12 sm:w-12 bg-teal-100 rounded-full flex items-center justify-center">
-                      <BookOpen className="h-5 w-5 sm:h-6 sm:w-6 text-teal-600" />
+                    <div className="h-10 w-10 sm:h-12 sm:w-12 bg-earth-100 rounded-full flex items-center justify-center">
+                      <BookOpen className="h-5 w-5 sm:h-6 sm:w-6 text-earth-600" />
                     </div>
                   </div>
                 </CardContent>
@@ -263,8 +263,8 @@ export default function Dashboard() {
                       <p className="text-xs sm:text-sm font-medium text-gray-600">Minggu Ini</p>
                       <p className="text-xl sm:text-2xl font-bold text-gray-900">{loading ? "..." : getWeeklyCount()}</p>
                     </div>
-                    <div className="h-10 w-10 sm:h-12 sm:w-12 bg-blue-100 rounded-full flex items-center justify-center">
-                      <Target className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+                    <div className="h-10 w-10 sm:h-12 sm:w-12 bg-earth-100 rounded-full flex items-center justify-center">
+                      <Target className="h-5 w-5 sm:h-6 sm:w-6 text-earth-600" />
                     </div>
                   </div>
                 </CardContent>
@@ -277,8 +277,8 @@ export default function Dashboard() {
                       <p className="text-xs sm:text-sm font-medium text-gray-600">Beruntun</p>
                       <p className="text-xl sm:text-2xl font-bold text-gray-900">{loading ? "..." : `${getStreakDays()} hari`}</p>
                     </div>
-                    <div className="h-10 w-10 sm:h-12 sm:w-12 bg-pink-100 rounded-full flex items-center justify-center">
-                      <Heart className="h-5 w-5 sm:h-6 sm:w-6 text-pink-600" />
+                    <div className="h-10 w-10 sm:h-12 sm:w-12 bg-warm-100 rounded-full flex items-center justify-center">
+                      <Heart className="h-5 w-5 sm:h-6 sm:w-6 text-warm-600" />
                     </div>
                   </div>
                 </CardContent>
@@ -324,13 +324,13 @@ export default function Dashboard() {
                     {loading ? (
                       <div className="space-y-3">
                         {[1, 2, 3].map(i => (
-                          <div key={i} className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gray-50 rounded-lg animate-pulse">
-                            <div className="h-8 w-8 sm:h-10 sm:w-10 bg-gray-200 rounded-full"></div>
+                          <div key={i} className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-earth-50 rounded-lg animate-pulse">
+                            <div className="h-8 w-8 sm:h-10 sm:w-10 bg-earth-200 rounded-full"></div>
                             <div className="flex-1 space-y-2">
-                              <div className="h-4 bg-gray-200 rounded w-1/3"></div>
-                              <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                              <div className="h-4 bg-earth-200 rounded w-1/3"></div>
+                              <div className="h-3 bg-earth-200 rounded w-2/3"></div>
                             </div>
-                            <div className="h-3 bg-gray-200 rounded w-16"></div>
+                            <div className="h-3 bg-earth-200 rounded w-16"></div>
                           </div>
                         ))}
                       </div>
@@ -347,7 +347,7 @@ export default function Dashboard() {
                         return (
                           <div 
                             key={entry.id} 
-                            className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors"
+                            className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-earth-50 rounded-lg hover:bg-earth-100 cursor-pointer transition-colors"
                             onClick={() => router.push(`/journal/${entry.id}`)}
                           >
                             <div className={`h-8 w-8 sm:h-10 sm:w-10 ${typeInfo.color} rounded-full flex items-center justify-center`}>

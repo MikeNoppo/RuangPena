@@ -66,9 +66,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   return (
     <Sidebar variant="inset" {...props}>
-      <SidebarHeader className="border-b border-gray-100 pb-4">
+      <SidebarHeader className="border-b border-earth-200 pb-4">
         <div className="flex items-center gap-2 px-4 py-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-600">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-earth-400">
             <BookOpen className="h-4 w-4 text-white" />
           </div>
           <div className="grid flex-1 text-left text-sm leading-tight">
@@ -96,7 +96,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
 
         {/* Logout at bottom */}
-        <div className="mt-auto border-t border-gray-100 pt-4">
+        <div className="mt-auto border-t border-earth-200 pt-4">
           <SidebarGroup>
             <SidebarGroupContent>
               <SidebarMenu>

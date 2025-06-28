@@ -1,4 +1,3 @@
-
 "use client"
 
 import type React from "react"
@@ -97,7 +96,7 @@ export default function LoginForm() {
           placeholder="Masukkan email Anda"
           value={formData.email}
           onChange={(e) => handleInputChange("email", e.target.value)}
-          className={`h-11 sm:h-12 border-gray-200 focus:border-teal-500 focus:ring-teal-500 text-sm sm:text-base ${
+          className={`h-11 sm:h-12 border-earth-200 focus:border-earth-500 focus:ring-earth-500 text-sm sm:text-base ${
             errors.email ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""
           }`}
           required
@@ -119,7 +118,7 @@ export default function LoginForm() {
           placeholder="Masukkan kata sandi Anda"
           value={formData.password}
           onChange={(e) => handleInputChange("password", e.target.value)}
-          className={`h-11 sm:h-12 border-gray-200 focus:border-teal-500 focus:ring-teal-500 text-sm sm:text-base ${
+          className={`h-11 sm:h-12 border-earth-200 focus:border-earth-500 focus:ring-earth-500 text-sm sm:text-base ${
             errors.password ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""
           }`}
           required
@@ -134,7 +133,7 @@ export default function LoginForm() {
       <div className="text-right">
         <Link
           href="/forgot-password"
-          className="text-xs sm:text-sm text-teal-600 hover:text-teal-700 hover:underline"
+          className="text-xs sm:text-sm text-earth-600 hover:text-earth-700 hover:underline"
         >
           Lupa kata sandi?
         </Link>
@@ -142,7 +141,7 @@ export default function LoginForm() {
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="w-full h-11 sm:h-12 bg-teal-600 hover:bg-teal-700 text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
+        className="w-full h-11 sm:h-12 bg-earth-400 hover:bg-earth-500 text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base border-0"
       >
         {isSubmitting ? (
           <div className="flex items-center gap-2">

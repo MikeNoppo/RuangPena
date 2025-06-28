@@ -26,7 +26,7 @@ export function SiteHeader() {
 	return (
 		<header className="site-header">
 			<nav
-				className="bg-white border-b border-gray-100 sticky top-0 z-50 backdrop-blur-sm bg-white/95"
+				className="bg-white/95 border-b border-earth-200 sticky top-0 z-50 backdrop-blur-sm"
 				role="navigation"
 				aria-label="Main navigation"
 			>
@@ -34,7 +34,7 @@ export function SiteHeader() {
 					<div className="flex justify-between items-center h-16">
 						{/* Brand Logo with subtle animation */}
 						<div className="brand-logo flex items-center">
-							<h1 className="text-xl font-semibold text-gray-900 hover:text-teal-600 transition-colors duration-300">
+							<h1 className="text-xl font-semibold text-gray-900 hover:text-earth-600 transition-colors duration-300">
 								RuangPena
 							</h1>
 						</div>
@@ -50,13 +50,13 @@ export function SiteHeader() {
 										aria-label={`Navigate to ${link.label} section`}
 									>
 										{link.label}
-										<span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-600 transition-all duration-300 group-hover:w-full"></span>
+										<span className="absolute bottom-0 left-0 w-0 h-0.5 bg-earth-600 transition-all duration-300 group-hover:w-full"></span>
 									</button>
 								))}
 							</div>
 							<Button
 								asChild
-								className="cta-button bg-teal-600 hover:bg-teal-700 text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
+								className="cta-button bg-earth-400 hover:bg-earth-500 text-white transition-all duration-300 hover:scale-105 hover:shadow-lg border-0"
 							>
 								<Link href="/auth">Masuk</Link>
 							</Button>
@@ -69,7 +69,7 @@ export function SiteHeader() {
 									<Button
 										variant="ghost"
 										size="icon"
-										className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all duration-300"
+										className="text-gray-600 hover:text-gray-900 hover:bg-earth-100 transition-all duration-300"
 										aria-label="Open mobile menu"
 									>
 										<Menu className="h-6 w-6" />
@@ -79,7 +79,7 @@ export function SiteHeader() {
 								<SheetContent side="right" className="mobile-menu w-[300px] sm:w-[400px]">
 									<div className="flex flex-col h-full">
 										{/* Mobile Menu Header */}
-										<div className="mobile-menu-header flex items-center justify-between pb-6 border-b border-gray-100">
+										<div className="mobile-menu-header flex items-center justify-between pb-6 border-b border-earth-200">
 											<h2 className="text-lg font-semibold text-gray-900">
 												RuangPena
 											</h2>
@@ -96,7 +96,7 @@ export function SiteHeader() {
 													<button
 														key={link.href}
 														onClick={() => handleNavClick(link.href)}
-														className="mobile-nav-link block w-full text-left px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-all duration-300"
+														className="mobile-nav-link block w-full text-left px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-earth-50 rounded-md transition-all duration-300"
 														aria-label={`Navigate to ${link.label} section`}
 													>
 														{link.label}
@@ -106,17 +106,17 @@ export function SiteHeader() {
 										</nav>
 
 										{/* Mobile Auth Actions */}
-										<div className="mobile-auth border-t border-gray-100 pt-6 space-y-3">
+										<div className="mobile-auth border-t border-earth-200 pt-6 space-y-3">
 											<Button
 												asChild
 												variant="ghost"
-												className="w-full justify-center text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all duration-300"
+												className="w-full justify-center text-gray-600 hover:text-gray-900 hover:bg-earth-100 transition-all duration-300"
 											>
 												<Link href="/auth">Masuk</Link>
 											</Button>
 											<Button
 												asChild
-												className="w-full bg-teal-600 hover:bg-teal-700 text-white transition-all duration-300 hover:scale-105"
+												className="w-full bg-earth-400 hover:bg-earth-500 text-white transition-all duration-300 hover:scale-105 border-0"
 											>
 												<Link href="/auth">Mulai</Link>
 											</Button>

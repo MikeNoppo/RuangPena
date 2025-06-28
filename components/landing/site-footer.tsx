@@ -10,12 +10,12 @@ export function SiteFooter() {
     }
   }
   return (
-    <footer className="site-footer bg-white border-t border-gray-100" role="contentinfo">
+    <footer className="site-footer bg-white border-t border-earth-200" role="contentinfo">
       <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="footer-content grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
           {/* Brand Section */}
           <div className="footer-brand sm:col-span-2">
-            <h3 className="brand-name text-lg font-semibold text-gray-900 mb-4 hover:text-teal-600 transition-colors duration-300">
+            <h3 className="brand-name text-lg font-semibold text-gray-900 hover:text-earth-600 transition-colors duration-300">
               RuangPena
             </h3>
             <p className="brand-description text-gray-600 max-w-md">
@@ -84,7 +84,7 @@ export function SiteFooter() {
         </div>
 
         {/* Footer Bottom */}
-        <div className="footer-bottom border-t border-gray-100 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center">
+        <div className="footer-bottom border-t border-earth-200 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center">
           <p className="copyright text-gray-500 text-sm">
             © {new Date().getFullYear()} RuangPena. Semua hak dilindungi.
           </p>

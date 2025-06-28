@@ -15,18 +15,18 @@ export function HeroSection() {
 
   return (
     <section
-      className="hero-section py-12 sm:py-20 lg:py-32 relative overflow-hidden"
+      className="hero-section py-12 sm:py-20 lg:py-32 relative overflow-hidden bg-gradient-to-br from-earth-50 to-warm-100"
       aria-labelledby="hero-heading"
     >
-      {/* Floating background elements */}
+      {/* Floating background elements with warm earth tones */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-20 h-20 bg-teal-100 rounded-full opacity-20 animate-pulse"></div>
+        <div className="absolute top-20 left-10 w-20 h-20 bg-earth-200 rounded-full opacity-30 animate-pulse"></div>
         <div
-          className="absolute top-40 right-20 w-16 h-16 bg-blue-100 rounded-full opacity-20 animate-pulse"
+          className="absolute top-40 right-20 w-16 h-16 bg-warm-300 rounded-full opacity-25 animate-pulse"
           style={{ animationDelay: "1s" }}
         ></div>
         <div
-          className="absolute bottom-40 left-20 w-12 h-12 bg-pink-100 rounded-full opacity-20 animate-pulse"
+          className="absolute bottom-40 left-20 w-12 h-12 bg-earth-300 rounded-full opacity-20 animate-pulse"
           style={{ animationDelay: "2s" }}
         ></div>
       </div>
@@ -42,7 +42,7 @@ export function HeroSection() {
             Temukan Kedamaian dalam Catatan Harian Anda
           </h1>
           <p
-            className={`hero-description text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed px-4 transition-all duration-1000 ease-out ${
+            className={`hero-description text-lg sm:text-xl text-gray-700 mb-8 max-w-2xl mx-auto leading-relaxed px-4 transition-all duration-1000 ease-out ${
               isHeroLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
             style={{ transitionDelay: "200ms" }}
@@ -59,7 +59,7 @@ export function HeroSection() {
             <Button
               asChild
               size="lg"
-              className="hero-cta bg-teal-600 hover:bg-teal-700 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-medium rounded-lg shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              className="hero-cta bg-earth-400 hover:bg-earth-500 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-medium rounded-lg shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-xl border-0"
             >
               <Link href="/auth">Mulai Menulis Gratis</Link>
             </Button>
