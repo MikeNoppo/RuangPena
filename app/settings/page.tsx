@@ -357,7 +357,7 @@ export default function AccountSettings() {
                     {hasProfileChanges && (
                       <p className="text-xs text-earth-600 flex items-center gap-1">
                         <span className="text-earth-500">•</span>
-                        Perubahan terdeteksi - klik "Simpan Perubahan" untuk menyimpan
+                        Perubahan terdeteksi - klik "Simpan Perubahan\" untuk menyimpan
                       </p>
                     )}
                   </div>
