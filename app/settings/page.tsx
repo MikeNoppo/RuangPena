@@ -326,7 +326,7 @@ export default function AccountSettings() {
             <Card className="border-0 shadow-sm">
               <CardHeader className="pb-4">
                 <CardTitle className="flex items-center gap-2 text-lg font-medium text-gray-900">
-                  <User className="h-5 w-5 text-teal-600" />
+                  <User className="h-5 w-5 text-earth-600" />
                   Profil
                 </CardTitle>
               </CardHeader>
@@ -343,7 +343,7 @@ export default function AccountSettings() {
                       placeholder="Masukkan nama pengguna Anda"
                       value={profileData.username}
                       onChange={(e) => handleProfileInputChange("username", e.target.value)}
-                      className={`h-11 border-gray-200 focus:border-teal-500 focus:ring-teal-500 ${
+                      className={`h-11 border-gray-200 focus:border-earth-500 focus:ring-earth-500 ${
                         profileErrors.username ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""
                       }`}
                       required
@@ -355,9 +355,9 @@ export default function AccountSettings() {
                       </p>
                     )}
                     {hasProfileChanges && (
-                      <p className="text-xs text-teal-600 flex items-center gap-1">
-                        <span className="text-teal-500">•</span>
-                        Perubahan terdeteksi - klik "Simpan Perubahan" untuk menyimpan
+                      <p className="text-xs text-earth-600 flex items-center gap-1">
+                        <span className="text-earth-500">•</span>
+                        Perubahan terdeteksi - klik "Simpan Perubahan\" untuk menyimpan
                       </p>
                     )}
                   </div>
@@ -368,7 +368,7 @@ export default function AccountSettings() {
                       <Button
                         type="submit"
                         disabled={isProfileSubmitting}
-                        className="bg-teal-600 hover:bg-teal-700 text-white font-medium disabled:opacity-50"
+                        className="bg-earth-400 hover:bg-earth-500 text-white font-medium disabled:opacity-50"
                       >
                         {isProfileSubmitting ? (
                           <div className="flex items-center gap-2">
@@ -389,7 +389,7 @@ export default function AccountSettings() {
             <Card className="border-0 shadow-sm">
               <CardHeader className="pb-4">
                 <CardTitle className="flex items-center gap-2 text-lg font-medium text-gray-900">
-                  <Lock className="h-5 w-5 text-teal-600" />
+                  <Lock className="h-5 w-5 text-earth-600" />
                   Ubah Kata Sandi
                 </CardTitle>
               </CardHeader>
@@ -407,7 +407,7 @@ export default function AccountSettings() {
                         placeholder="Masukkan kata sandi saat ini"
                         value={passwordData.currentPassword}
                         onChange={(e) => handlePasswordInputChange("currentPassword", e.target.value)}
-                        className={`h-11 border-gray-200 focus:border-teal-500 focus:ring-teal-500 pr-10 ${
+                        className={`h-11 border-gray-200 focus:border-earth-500 focus:ring-earth-500 pr-10 ${
                           passwordErrors.currentPassword ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""
                         }`}
                         required
@@ -440,7 +440,7 @@ export default function AccountSettings() {
                         placeholder="Masukkan kata sandi baru"
                         value={passwordData.newPassword}
                         onChange={(e) => handlePasswordInputChange("newPassword", e.target.value)}
-                        className={`h-11 border-gray-200 focus:border-teal-500 focus:ring-teal-500 pr-10 ${
+                        className={`h-11 border-gray-200 focus:border-earth-500 focus:ring-earth-500 pr-10 ${
                           passwordErrors.newPassword ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""
                         }`}
                         required
@@ -463,20 +463,20 @@ export default function AccountSettings() {
                       <div className="text-xs text-gray-500 space-y-1">
                         <p>Kata sandi harus mengandung:</p>
                         <ul className="ml-4 space-y-1">
-                          <li className={passwordData.newPassword.length >= 8 ? "text-teal-600" : "text-gray-400"}>
+                          <li className={passwordData.newPassword.length >= 8 ? "text-earth-600" : "text-gray-400"}>
                             ✓ Minimal 8 karakter
                           </li>
                           <li
-                            className={/(?=.*[a-z])/.test(passwordData.newPassword) ? "text-teal-600" : "text-gray-400"}
+                            className={/(?=.*[a-z])/.test(passwordData.newPassword) ? "text-earth-600" : "text-gray-400"}
                           >
                             ✓ Satu huruf kecil
                           </li>
                           <li
-                            className={/(?=.*[A-Z])/.test(passwordData.newPassword) ? "text-teal-600" : "text-gray-400"}
+                            className={/(?=.*[A-Z])/.test(passwordData.newPassword) ? "text-earth-600" : "text-gray-400"}
                           >
                             ✓ Satu huruf besar
                           </li>
-                          <li className={/(?=.*\d)/.test(passwordData.newPassword) ? "text-teal-600" : "text-gray-400"}>
+                          <li className={/(?=.*\d)/.test(passwordData.newPassword) ? "text-earth-600" : "text-gray-400"}>
                             ✓ Satu angka
                           </li>
                         </ul>
@@ -496,7 +496,7 @@ export default function AccountSettings() {
                         placeholder="Konfirmasi kata sandi baru"
                         value={passwordData.confirmNewPassword}
                         onChange={(e) => handlePasswordInputChange("confirmNewPassword", e.target.value)}
-                        className={`h-11 border-gray-200 focus:border-teal-500 focus:ring-teal-500 pr-10 ${
+                        className={`h-11 border-gray-200 focus:border-earth-500 focus:ring-earth-500 pr-10 ${
                           passwordErrors.confirmNewPassword
                             ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                             : ""
@@ -520,8 +520,8 @@ export default function AccountSettings() {
                     {!passwordErrors.confirmNewPassword &&
                       passwordData.confirmNewPassword &&
                       passwordData.newPassword === passwordData.confirmNewPassword && (
-                        <p className="text-sm text-teal-600 flex items-center gap-1">
-                          <span className="text-teal-500">✓</span>
+                        <p className="text-sm text-earth-600 flex items-center gap-1">
+                          <span className="text-earth-500">✓</span>
                           Kata sandi cocok
                         </p>
                       )}
@@ -533,8 +533,8 @@ export default function AccountSettings() {
                     </p>
                   )}
                   {hasPasswordChanges && isPasswordFormComplete && (
-                    <p className="text-xs text-teal-600 flex items-center gap-1">
-                      <span className="text-teal-500">•</span>
+                    <p className="text-xs text-earth-600 flex items-center gap-1">
+                      <span className="text-earth-500">•</span>
                       Siap untuk menyimpan - klik "Ubah Kata Sandi"
                     </p>
                   )}
@@ -545,7 +545,7 @@ export default function AccountSettings() {
                       <Button
                         type="submit"
                         disabled={isPasswordSubmitting || !isPasswordFormComplete}
-                        className="bg-teal-600 hover:bg-teal-700 text-white font-medium disabled:opacity-50"
+                        className="bg-earth-400 hover:bg-earth-500 text-white font-medium disabled:opacity-50"
                       >
                         {isPasswordSubmitting ? (
                           <div className="flex items-center gap-2">

@@ -266,7 +266,7 @@ export default function EducationalArticles() {
                     <Filter className="h-4 w-4 text-gray-500" />
                     <h3 className="text-sm font-medium text-gray-700">Filter & Pencarian</h3>
                     {hasActiveFilters && (
-                      <Badge variant="secondary" className="ml-2 bg-teal-100 text-teal-700">
+                      <Badge variant="secondary" className="ml-2 bg-earth-100 text-earth-700">
                         {[
                           searchQuery && "Pencarian",
                           selectedCategory !== "all" && "Kategori",
@@ -289,7 +289,7 @@ export default function EducationalArticles() {
                         placeholder="Cari artikel, topik, atau kategori..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10 h-10 sm:h-11 border-gray-200 focus:border-teal-500 focus:ring-teal-500"
+                        className="pl-10 h-10 sm:h-11 border-gray-200 focus:border-earth-500 focus:ring-earth-500"
                       />
                       {searchQuery && (
                         <Button
@@ -306,7 +306,7 @@ export default function EducationalArticles() {
                     {/* Category Filter */}
                     <div>
                       <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                        <SelectTrigger className="h-10 sm:h-11 border-gray-200 focus:border-teal-500 focus:ring-teal-500">
+                        <SelectTrigger className="h-10 sm:h-11 border-gray-200 focus:border-earth-500 focus:ring-earth-500">
                           <SelectValue placeholder="Semua Kategori" />
                         </SelectTrigger>
                         <SelectContent>
@@ -323,7 +323,7 @@ export default function EducationalArticles() {
                     {/* Sort Options */}
                     <div>
                       <Select value={sortBy} onValueChange={(value: SortOption) => setSortBy(value)}>
-                        <SelectTrigger className="h-10 sm:h-11 border-gray-200 focus:border-teal-500 focus:ring-teal-500">
+                        <SelectTrigger className="h-10 sm:h-11 border-gray-200 focus:border-earth-500 focus:ring-earth-500">
                           <SelectValue placeholder="Urutkan" />
                         </SelectTrigger>
                         <SelectContent>
@@ -374,7 +374,7 @@ export default function EducationalArticles() {
                     <div className="flex items-center gap-2">
                       <span className="text-sm text-gray-600">Tingkat:</span>
                       <Select value={selectedDifficulty} onValueChange={setSelectedDifficulty}>
-                        <SelectTrigger className="h-8 w-32 border-gray-200 focus:border-teal-500 focus:ring-teal-500">
+                        <SelectTrigger className="h-8 w-32 border-gray-200 focus:border-earth-500 focus:ring-earth-500">
                           <SelectValue placeholder="Semua" />
                         </SelectTrigger>
                         <SelectContent>
@@ -395,7 +395,7 @@ export default function EducationalArticles() {
                         id="featured"
                         checked={showFeaturedOnly}
                         onChange={(e) => setShowFeaturedOnly(e.target.checked)}
-                        className="rounded border-gray-300 text-teal-600 focus:ring-teal-500"
+                        className="rounded border-gray-300 text-earth-600 focus:ring-earth-500"
                       />
                       <label htmlFor="featured" className="text-sm text-gray-600 cursor-pointer">
                         Hanya Artikel Unggulan
@@ -424,7 +424,7 @@ export default function EducationalArticles() {
                   variant="ghost"
                   size="sm"
                   onClick={clearAllFilters}
-                  className="text-teal-600 hover:text-teal-700 hover:bg-teal-50"
+                  className="text-earth-600 hover:text-earth-700 hover:bg-earth-50"
                 >
                   <X className="h-4 w-4 mr-1" />
                   Hapus Semua Filter
@@ -456,7 +456,7 @@ export default function EducationalArticles() {
                         Hapus Pencarian
                       </Button>
                     )}
-                    <Button onClick={clearAllFilters} className="bg-teal-600 hover:bg-teal-700 text-white">
+                    <Button onClick={clearAllFilters} className="bg-earth-400 hover:bg-earth-500 text-white">
                       Tampilkan Semua Artikel
                     </Button>
                   </div>
@@ -476,7 +476,7 @@ export default function EducationalArticles() {
                         {/* Article Icon */}
                         <div className="flex-shrink-0">
                           <div className="h-10 w-10 sm:h-12 sm:w-12 bg-white rounded-lg shadow-sm border flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                            <BookOpen className="h-5 w-5 sm:h-6 sm:w-6 text-teal-600" />
+                            <BookOpen className="h-5 w-5 sm:h-6 sm:w-6 text-earth-600" />
                           </div>
                         </div>
 
@@ -484,7 +484,7 @@ export default function EducationalArticles() {
                         <div className="flex-1 min-w-0 space-y-2 sm:space-y-3">
                           {/* Title and Featured Badge */}
                           <div className="flex items-start gap-2">
-                            <h3 className="text-base sm:text-lg font-medium text-gray-900 group-hover:text-teal-700 transition-colors leading-tight flex-1">
+                            <h3 className="text-base sm:text-lg font-medium text-gray-900 group-hover:text-earth-700 transition-colors leading-tight flex-1">
                               {highlightSearchTerm(article.title, searchQuery)}
                             </h3>
                             {article.featured && (

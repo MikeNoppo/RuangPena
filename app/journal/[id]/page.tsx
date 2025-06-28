@@ -41,8 +41,8 @@ const getJournalTypeInfo = (type: JournalType) => {
     case JournalType.BULLET:
       return {
         icon: Target,
-        color: "bg-teal-100 text-teal-700 border-teal-200",
-        iconColor: "text-teal-600"
+        color: "bg-earth-100 text-earth-700 border-earth-200",
+        iconColor: "text-earth-600"
       }
     default:
       return {
@@ -101,7 +101,7 @@ export default function JournalEntryDetail({ params }: JournalEntryDetailProps) 
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center space-y-4">
-          <div className="w-8 h-8 border-2 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <div className="w-8 h-8 border-2 border-earth-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
           <p className="text-gray-600">Memuat catatan...</p>
         </div>
       </div>
@@ -121,7 +121,7 @@ export default function JournalEntryDetail({ params }: JournalEntryDetailProps) 
               {error || "Catatan yang Anda cari mungkin telah dihapus atau tidak tersedia."}
             </p>
           </div>
-          <Button onClick={() => router.push("/history")} className="bg-teal-600 hover:bg-teal-700 text-white">
+          <Button onClick={() => router.push("/history")} className="bg-earth-400 hover:bg-earth-500 text-white">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Kembali ke Riwayat
           </Button>
