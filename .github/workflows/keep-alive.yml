@@ -1,0 +1,23 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    # Menjalankan setiap 5 hari sekali pada pukul 2 pagi UTC.
+    # Cukup untuk mencegah pause (yang butuh 7 hari tidak aktif).
+    - cron: '0 2 */5 * *'
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    # PENTING: Karena Anda menyimpan secret di environment "Production",
+    # kita perlu menunjuk ke environment tersebut di sini agar bisa diakses.
+    environment: Production
+    steps:
+      - name: Ping Supabase Database
+        run: |
+          # PENTING: Ganti 'pings' dengan nama salah satu tabel di database Anda.
+          # Contoh: 'users', 'products', atau tabel apa saja yang ada.
+          curl -X GET \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/keep_alive_logs?select=*&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
