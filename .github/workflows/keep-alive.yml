@@ -5,7 +5,7 @@ on:
     # Menjalankan setiap 5 hari sekali pada pukul 2 pagi UTC.
     # Cukup untuk mencegah pause (yang butuh 7 hari tidak aktif).
     - cron: '0 2 */5 * *'
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   ping-supabase:
