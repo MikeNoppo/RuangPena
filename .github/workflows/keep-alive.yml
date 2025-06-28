@@ -16,9 +16,11 @@ jobs:
     steps:
       - name: Ping Supabase Database
         run: |
-          # PENTING: Ganti 'pings' dengan nama salah satu tabel di database Anda.
-          # Contoh: 'users', 'products', atau tabel apa saja yang ada.
-          curl -X GET \
-            "${{ secrets.SUPABASE_URL }}/rest/v1/keep_alive_logs?select=*&limit=1" \
+          # Perintah ini akan MENAMBAHKAN baris baru ke tabel setiap kali berjalan
+          curl -X POST \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/keep_alive_logs" \
             -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Content-Type: application/json" \
+            -H "Prefer: return=minimal" \
+            -d '{}'
