@@ -1,10 +1,11 @@
 "use client"
 
 import type React from "react"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
 import { BookOpen, Home, History, GraduationCap, LogOut, PenTool, Settings } from "lucide-react"
 import Link from "next/link"
+import { useAuth } from "@/contexts/AuthContext"
 
 import {
   Sidebar,
@@ -20,6 +21,14 @@ import {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname()
+  const router = useRouter()
+  const { logout } = useAuth()
+
+  // Handle logout
+  const handleLogout = () => {
+    logout()
+    router.push('/auth')
+  }
 
   // Navigation items with dynamic active state
   const navigationItems = [
@@ -93,13 +102,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <SidebarMenu>
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
-                    <Link
-                      href="/logout"
-                      className="flex items-center gap-3 text-red-600 hover:text-red-700 hover:bg-red-50"
+                    <button
+                      onClick={handleLogout}
+                      className="flex w-full items-center gap-3 text-red-600 hover:text-red-700 hover:bg-red-50"
                     >
                       <LogOut className="h-4 w-4" />
                       <span>Keluar</span>
-                    </Link>
+                    </button>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               </SidebarMenu>
