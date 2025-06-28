@@ -208,7 +208,7 @@ export default function JournalForm() {
                 Menyimpan...
               </div>
             ) : (
-              "Simpan Entri"
+              "Simpan Jurnal"
             )}
           </Button>
         </div>
