@@ -1,10 +1,8 @@
-"use client"
-
-import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Clock, User, Calendar, BookOpen } from "lucide-react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import Image from "next/image"
+import { notFound } from "next/navigation"
 
 // Mock article data (in a real app, this would come from an API or database)
 const articles = [
@@ -70,170 +68,131 @@ Ingatlah, kesehatan mental bukanlah tujuan akhir, tetapi perjalanan yang harus k
   // Add more articles as needed
 ]
 
+// Function to render article content with proper formatting
+// This function runs on the server and generates HTML
+const renderContent = (content: string) => {
+  const paragraphs = content.split("\n\n")
+
+  return paragraphs.map((paragraph, index) => {
+    // Handle horizontal rule (---)
+    if (paragraph.trim() === "---") {
+      return <hr key={index} className="my-8 border-gray-200" />
+    }
+
+    // Handle h3 headings (###)
+    if (paragraph.startsWith("### ")) {
+      return (
+        <h3 key={index} className="text-lg sm:text-xl font-medium text-gray-900 mt-6 mb-3 first:mt-0">
+          {paragraph.replace("### ", "")}
+        </h3>
+      )
+    }
+
+    // Handle h2 headings (##)
+    if (paragraph.startsWith("## ")) {
+      return (
+        <h2 key={index} className="text-xl sm:text-2xl font-medium text-gray-900 mt-8 mb-4 first:mt-0">
+          {paragraph.replace("## ", "")}
+        </h2>
+      )
+    }
+
+    // Handle h1 headings (#)
+    if (paragraph.startsWith("# ")) {
+      return (
+        <h1 key={index} className="text-2xl sm:text-3xl font-medium text-gray-900 mt-8 mb-4 first:mt-0">
+          {paragraph.replace("# ", "")}
+        </h1>
+      )
+    }
+
+    // Handle italic text (*text*)
+    const formatText = (text: string) => {
+      return text.replace(/\*([^*]+)\*/g, '<em class="italic">$1</em>')
+    }
+
+    // Handle bullet points
+    if (paragraph.includes("- ")) {
+      const lines = paragraph.split("\n")
+      const beforeList = lines.filter((line) => !line.startsWith("- "))
+      const listItems = lines.filter((line) => line.startsWith("- "))
+
+      return (
+        <div key={index} className="space-y-4">
+          {beforeList.map(
+            (line, lineIndex) =>
+              line.trim() && (
+                <p key={lineIndex} className="text-gray-800 leading-relaxed"
+                   dangerouslySetInnerHTML={{ __html: formatText(line) }} />
+              ),
+          )}
+          {listItems.length > 0 && (
+            <ul className="space-y-2 ml-6">
+              {listItems.map((item, itemIndex) => (
+                <li key={itemIndex} className="text-gray-800 leading-relaxed list-disc"
+                    dangerouslySetInnerHTML={{ __html: formatText(item.replace("- ", "")) }} />
+              ))}
+            </ul>
+          )}
+        </div>
+      )
+    }
+
+    // Handle numbered lists
+    if (/^\d+\./.test(paragraph)) {
+      const lines = paragraph.split("\n")
+      const listItems = lines.filter((line) => /^\d+\./.test(line))
+      const beforeList = lines.filter((line) => !/^\d+\./.test(line))
+
+      return (
+        <div key={index} className="space-y-4">
+          {beforeList.map(
+            (line, lineIndex) =>
+              line.trim() && (
+                <p key={lineIndex} className="text-gray-800 leading-relaxed"
+                   dangerouslySetInnerHTML={{ __html: formatText(line) }} />
+              ),
+          )}
+          {listItems.length > 0 && (
+            <ol className="space-y-2 ml-6 list-decimal">
+              {listItems.map((item, itemIndex) => (
+                <li key={itemIndex} className="text-gray-800 leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: formatText(item.replace(/^\d+\.\s*/, "")) }} />
+              ))}
+            </ol>
+          )}
+        </div>
+      )
+    }
+
+    // Regular paragraphs
+    if (paragraph.trim()) {
+      return (
+        <p key={index} className="text-gray-800 leading-relaxed mb-6 last:mb-0"
+           dangerouslySetInnerHTML={{ __html: formatText(paragraph) }} />
+      )
+    }
+
+    return null
+  })
+}
+
 interface ArticleDetailProps {
   params: {
     id: string
   }
 }
 
+// This is now a Server Component
 export default function ArticleDetail({ params }: ArticleDetailProps) {
-  const [article, setArticle] = useState<(typeof articles)[0] | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const router = useRouter()
+  const { id } = params
 
-  useEffect(() => {
-    // Simulate API call to fetch article by ID
-    const fetchArticle = async () => {
-      setIsLoading(true)
+  // Fetch article data on the server
+  const article = articles.find((a) => a.id === Number.parseInt(id))
 
-      // Simulate loading delay
-      await new Promise((resolve) => setTimeout(resolve, 500))
-
-      const foundArticle = articles.find((a) => a.id === Number.parseInt(params.id))
-      setArticle(foundArticle || null)
-      setIsLoading(false)
-    }
-
-    fetchArticle()
-  }, [params.id])
-
-  // Function to render article content with proper formatting
-  const renderContent = (content: string) => {
-    const paragraphs = content.split("\n\n")
-
-    return paragraphs.map((paragraph, index) => {
-      // Handle horizontal rule (---)
-      if (paragraph.trim() === "---") {
-        return <hr key={index} className="my-8 border-gray-200" />
-      }
-
-      // Handle h3 headings (###)
-      if (paragraph.startsWith("### ")) {
-        return (
-          <h3 key={index} className="text-lg sm:text-xl font-medium text-gray-900 mt-6 mb-3 first:mt-0">
-            {paragraph.replace("### ", "")}
-          </h3>
-        )
-      }
-
-      // Handle h2 headings (##)
-      if (paragraph.startsWith("## ")) {
-        return (
-          <h2 key={index} className="text-xl sm:text-2xl font-medium text-gray-900 mt-8 mb-4 first:mt-0">
-            {paragraph.replace("## ", "")}
-          </h2>
-        )
-      }
-
-      // Handle h1 headings (#)
-      if (paragraph.startsWith("# ")) {
-        return (
-          <h1 key={index} className="text-2xl sm:text-3xl font-medium text-gray-900 mt-8 mb-4 first:mt-0">
-            {paragraph.replace("# ", "")}
-          </h1>
-        )
-      }
-
-      // Handle italic text (*text*)
-      const formatText = (text: string) => {
-        return text.replace(/\*([^*]+)\*/g, '<em class="italic">$1</em>')
-      }
-
-      // Handle bullet points
-      if (paragraph.includes("- ")) {
-        const lines = paragraph.split("\n")
-        const beforeList = lines.filter((line) => !line.startsWith("- "))
-        const listItems = lines.filter((line) => line.startsWith("- "))
-
-        return (
-          <div key={index} className="space-y-4">
-            {beforeList.map(
-              (line, lineIndex) =>
-                line.trim() && (
-                  <p key={lineIndex} className="text-gray-800 leading-relaxed"
-                     dangerouslySetInnerHTML={{ __html: formatText(line) }} />
-                ),
-            )}
-            {listItems.length > 0 && (
-              <ul className="space-y-2 ml-6">
-                {listItems.map((item, itemIndex) => (
-                  <li key={itemIndex} className="text-gray-800 leading-relaxed list-disc"
-                      dangerouslySetInnerHTML={{ __html: formatText(item.replace("- ", "")) }} />
-                ))}
-              </ul>
-            )}
-          </div>
-        )
-      }
-
-      // Handle numbered lists
-      if (/^\d+\./.test(paragraph)) {
-        const lines = paragraph.split("\n")
-        const listItems = lines.filter((line) => /^\d+\./.test(line))
-        const beforeList = lines.filter((line) => !/^\d+\./.test(line))
-
-        return (
-          <div key={index} className="space-y-4">
-            {beforeList.map(
-              (line, lineIndex) =>
-                line.trim() && (
-                  <p key={lineIndex} className="text-gray-800 leading-relaxed"
-                     dangerouslySetInnerHTML={{ __html: formatText(line) }} />
-                ),
-            )}
-            {listItems.length > 0 && (
-              <ol className="space-y-2 ml-6 list-decimal">
-                {listItems.map((item, itemIndex) => (
-                  <li key={itemIndex} className="text-gray-800 leading-relaxed"
-                      dangerouslySetInnerHTML={{ __html: formatText(item.replace(/^\d+\.\s*/, "")) }} />
-                ))}
-              </ol>
-            )}
-          </div>
-        )
-      }
-
-      // Regular paragraphs
-      if (paragraph.trim()) {
-        return (
-          <p key={index} className="text-gray-800 leading-relaxed mb-6 last:mb-0"
-             dangerouslySetInnerHTML={{ __html: formatText(paragraph) }} />
-        )
-      }
-
-      return null
-    })
-  }
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="w-8 h-8 border-2 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-gray-600">Memuat artikel...</p>
-        </div>
-      </div>
-    )
-  }
-
+  // If article is not found, render the not-found page
   if (!article) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center space-y-6 max-w-md mx-auto px-4">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
-            <BookOpen className="h-8 w-8 text-gray-400" />
-          </div>
-          <div className="space-y-2">
-            <h1 className="text-xl font-medium text-gray-900">Artikel tidak ditemukan</h1>
-            <p className="text-gray-600">Artikel yang Anda cari mungkin telah dihapus atau tidak tersedia.</p>
-          </div>
-          <Button onClick={() => router.push("/learn")} className="bg-teal-600 hover:bg-teal-700 text-white">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Kembali ke Pustaka
-          </Button>
-        </div>
-      </div>
-    )
+    notFound()
   }
 
   return (
@@ -279,12 +238,14 @@ export default function ArticleDetail({ params }: ArticleDetailProps) {
 
         {/* Header Image */}
         <div className="mb-8 sm:mb-12">
-          <div className="w-full h-64 sm:h-80 lg:h-96 bg-gradient-to-r from-teal-50 to-blue-50 rounded-lg overflow-hidden">
-            <img
+          <div className="relative w-full aspect-[16/9] sm:aspect-[2/1] lg:aspect-[2.4/1] rounded-lg overflow-hidden">
+            <Image
               src={article.headerImage || "/placeholder.svg"}
               alt={article.title}
-              className="w-full h-full object-cover"
-              crossOrigin="anonymous"
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 1200px"
             />
           </div>
         </div>

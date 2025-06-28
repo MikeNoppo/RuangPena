@@ -5,13 +5,14 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { SkeletonLoader } from "@/components/skeleton-loader"
 import { useAuth } from "@/contexts/AuthContext"
 import { useRouter, useSearchParams } from "next/navigation"
 import { CreateJournalRequest, ApiResponse, JournalEntry } from "@/lib/types"
 import { JournalType } from "@prisma/client"
 
 export default function NewJournalEntry() {
-  const { user, token } = useAuth()
+  const { user, token, loading: authLoading } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
   const [title, setTitle] = useState("")
@@ -30,10 +31,12 @@ export default function NewJournalEntry() {
 
   // Redirect if not logged in
   useEffect(() => {
-    if (!user) {
-      router.push('/auth')
+    if (!authLoading) {
+      if (!user) {
+        router.push('/auth')
+      }
     }
-  }, [user, router])
+  }, [user, authLoading, router])
 
   const handleSave = async () => {
     if (!content.trim()) {
@@ -99,6 +102,18 @@ export default function NewJournalEntry() {
       default:
         return "Mulai tulis pikiran Anda di sini..."
     }
+  }
+
+  if (authLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <SkeletonLoader className="w-full h-full" />
+      </div>
+    )
+  }
+
+  if (!user) {
+    return null // Will redirect in useEffect
   }
 
   return (
