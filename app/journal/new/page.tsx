@@ -6,18 +6,27 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useAuth } from "@/contexts/AuthContext"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { CreateJournalRequest, ApiResponse, JournalEntry } from "@/lib/types"
 import { JournalType } from "@prisma/client"
 
 export default function NewJournalEntry() {
   const { user, token } = useAuth()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [journalType, setJournalType] = useState("")
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState("")
+
+  // Set initial journal type from query parameter
+  useEffect(() => {
+    const typeFromQuery = searchParams.get('type')
+    if (typeFromQuery && Object.values(JournalType).includes(typeFromQuery as JournalType)) {
+      setJournalType(typeFromQuery)
+    }
+  }, [searchParams])
 
   // Redirect if not logged in
   useEffect(() => {
