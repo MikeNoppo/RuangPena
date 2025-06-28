@@ -45,15 +45,15 @@ export function FeaturesSection() {
                 <article className="feature-card group" aria-labelledby={`feature-${index}-title`}>
                   <Card className="h-full border-0 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 group-hover:scale-105">
                     <CardContent className="card-content p-6 sm:p-8 text-center h-full flex flex-col">
-                      <div className="feature-icon w-12 h-12 sm:w-16 sm:h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 transition-all duration-300 group-hover:bg-teal-200 group-hover:scale-110">
+                      <div className="feature-icon w-12 h-12 sm:w-16 sm:h-16 bg-earth-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 transition-all duration-300 group-hover:bg-earth-200 group-hover:scale-110">
                         <feature.icon
-                          className="w-6 h-6 sm:w-8 sm:h-8 text-teal-600 transition-all duration-300 group-hover:text-teal-700"
+                          className="w-6 h-6 sm:w-8 sm:h-8 text-earth-600 transition-all duration-300 group-hover:text-earth-700"
                           aria-hidden="true"
                         />
                       </div>
                       <h3
                         id={`feature-${index}-title`}
-                        className="feature-title text-lg sm:text-xl font-medium text-gray-900 mb-3 sm:mb-4 transition-colors duration-300 group-hover:text-teal-700"
+                        className="feature-title text-lg sm:text-xl font-medium text-gray-900 mb-3 sm:mb-4 transition-colors duration-300 group-hover:text-earth-700"
                       >
                         {feature.title}
                       </h3>

@@ -60,6 +60,31 @@ const config: Config = {
   				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
+  			},
+  			// Warm Earth Tones Palette
+  			earth: {
+  				50: '#faf8f5',   // Very light warm beige
+  				100: '#f5f0e8',  // Light warm beige
+  				200: '#ede1d0',  // Soft beige
+  				300: '#e0ccb3',  // Light taupe
+  				400: '#d1b396',  // Medium taupe (Primary color)
+  				500: '#c19a7a',  // Warm taupe
+  				600: '#a67c5a',  // Medium brown
+  				700: '#8b6240',  // Dark brown
+  				800: '#6d4a2e',  // Deep brown
+  				900: '#4a3220',  // Very dark brown
+  			},
+  			warm: {
+  				50: '#fdf9f5',   // Warm white
+  				100: '#f9f1e8',  // Warm cream
+  				200: '#f2e3d0',  // Light warm
+  				300: '#e8d0b3',  // Soft warm
+  				400: '#dbb896',  // Medium warm
+  				500: '#cc9f7a',  // Rich warm
+  				600: '#b5825a',  // Deep warm
+  				700: '#956840',  // Dark warm
+  				800: '#744f2e',  // Very dark warm
+  				900: '#523620',  // Darkest warm
   			}
   		},
   		borderRadius: {

@@ -28,7 +28,7 @@ export function AboutSection() {
 		<AnimatedSection>
 			<section
 				id="tentang"
-				className="about-section py-12 sm:py-20 bg-gray-50"
+				className="about-section py-12 sm:py-20 bg-earth-50"
 				aria-labelledby="about-heading"
 			>
 				<div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -58,7 +58,7 @@ export function AboutSection() {
 										<h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">
 											Anggelina Rebecca Elsa Sendow, S.Psi.
 										</h3>
-										<p className="text-teal-600 font-medium mb-3 sm:mb-4">
+										<p className="text-earth-600 font-medium mb-3 sm:mb-4">
 											Pendiri RuangPena
 										</p>
 										<p className="text-base text-gray-600">
@@ -89,15 +89,15 @@ export function AboutSection() {
 								>
 									<Card className="h-full border-0 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 group-hover:scale-105">
 										<CardContent className="card-content p-6 sm:p-8 text-center h-full flex flex-col">
-											<div className="feature-icon w-12 h-12 sm:w-16 sm:h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 transition-all duration-300 group-hover:bg-teal-200 group-hover:scale-110">
+											<div className="feature-icon w-12 h-12 sm:w-16 sm:h-16 bg-earth-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 transition-all duration-300 group-hover:bg-earth-200 group-hover:scale-110">
 												<feature.icon
-													className="w-6 h-6 sm:w-8 sm:h-8 text-teal-600 transition-all duration-300 group-hover:text-teal-700"
+													className="w-6 h-6 sm:w-8 sm:h-8 text-earth-600 transition-all duration-300 group-hover:text-earth-700"
 													aria-hidden="true"
 												/>
 											</div>
 											<h3
 												id={`about-feature-${index}-title`}
-												className="feature-title text-lg sm:text-xl font-medium text-gray-900 mb-3 sm:mb-4 transition-colors duration-300 group-hover:text-teal-700"
+												className="feature-title text-lg sm:text-xl font-medium text-gray-900 mb-3 sm:mb-4 transition-colors duration-300 group-hover:text-earth-700"
 											>
 												{feature.title}
 											</h3>
