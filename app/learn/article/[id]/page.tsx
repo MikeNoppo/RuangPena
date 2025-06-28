@@ -9,7 +9,7 @@ const articles = [
   {
     id: 1,
     title: "Pentingnya Menjaga Kesehatan Mental",
-    author: "Tim RuangPena",
+    author: "Anggelina Rebecca Elsa Sendow, S.Psi.",
     publishDate: "28 Juni 2025",
     readTime: "Bacaan 10 menit",
     category: "Kesehatan Mental",
