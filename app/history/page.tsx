@@ -94,8 +94,8 @@ export default function HistoryPage() {
       case 'BULLET':
         return {
           icon: Target,
-          color: "bg-teal-100 text-teal-700 border-teal-200",
-          iconColor: "text-teal-600"
+          color: "bg-earth-100 text-earth-700 border-earth-200",
+          iconColor: "text-earth-600"
         }
       default:
         return {
@@ -224,7 +224,7 @@ export default function HistoryPage() {
                           <Filter className="h-4 w-4 text-gray-500" />
                           <h3 className="text-sm font-medium text-gray-700">Filter & Pencarian</h3>
                           {hasActiveFilters && (
-                            <Badge variant="secondary" className="ml-2 bg-teal-100 text-teal-700">
+                            <Badge variant="secondary" className="ml-2 bg-earth-100 text-earth-700">
                               {[
                                 searchQuery && "Pencarian",
                                 filterType !== "all" && "Tipe",
@@ -245,7 +245,7 @@ export default function HistoryPage() {
                               placeholder="Cari di dalam catatan..."
                               value={searchQuery}
                               onChange={(e) => setSearchQuery(e.target.value)}
-                              className="pl-10 h-10 sm:h-11 border-gray-200 focus:border-teal-500 focus:ring-teal-500"
+                              className="pl-10 h-10 sm:h-11 border-gray-200 focus:border-earth-500 focus:ring-earth-500"
                             />
                             {searchQuery && (
                               <Button
@@ -262,7 +262,7 @@ export default function HistoryPage() {
                           {/* Journal Type Filter */}
                           <div>
                             <Select value={filterType} onValueChange={setFilterType}>
-                              <SelectTrigger className="h-10 sm:h-11 border-gray-200 focus:border-teal-500 focus:ring-teal-500">
+                              <SelectTrigger className="h-10 sm:h-11 border-gray-200 focus:border-earth-500 focus:ring-earth-500">
                                 <SelectValue placeholder="Semua Tipe" />
                               </SelectTrigger>
                               <SelectContent>
@@ -278,7 +278,7 @@ export default function HistoryPage() {
                           {/* Sort Options */}
                           <div>
                             <Select value={sortBy} onValueChange={(value: SortOption) => setSortBy(value)}>
-                              <SelectTrigger className="h-10 sm:h-11 border-gray-200 focus:border-teal-500 focus:ring-teal-500">
+                              <SelectTrigger className="h-10 sm:h-11 border-gray-200 focus:border-earth-500 focus:ring-earth-500">
                                 <SelectValue placeholder="Urutkan" />
                               </SelectTrigger>
                               <SelectContent>
@@ -332,7 +332,7 @@ export default function HistoryPage() {
                         variant="ghost"
                         size="sm"
                         onClick={clearAllFilters}
-                        className="text-teal-600 hover:text-teal-700 hover:bg-teal-50"
+                        className="text-earth-600 hover:text-earth-700 hover:bg-earth-50"
                       >
                         <X className="h-4 w-4 mr-1" />
                         Hapus Semua Filter
@@ -415,7 +415,7 @@ export default function HistoryPage() {
                           Hapus Pencarian
                         </Button>
                       )}
-                      <Button onClick={clearAllFilters} className="bg-teal-600 hover:bg-teal-700 text-white">
+                      <Button onClick={clearAllFilters} className="bg-earth-400 hover:bg-earth-500 text-white">
                         Tampilkan Semua Catatan
                       </Button>
                     </div>
@@ -447,7 +447,7 @@ export default function HistoryPage() {
                             <div className="flex-1 min-w-0 space-y-2 sm:space-y-3">
                               {/* Title and Date */}
                               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4">
-                                <h3 className="text-base sm:text-lg font-medium text-gray-900 group-hover:text-teal-700 transition-colors">
+                                <h3 className="text-base sm:text-lg font-medium text-gray-900 group-hover:text-earth-700 transition-colors">
                                   {highlightSearchTerm(entry.title || 'Tanpa Judul', searchQuery)}
                                 </h3>
                                 <p className="text-xs sm:text-sm text-gray-500 whitespace-nowrap">
