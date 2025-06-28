@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -10,6 +10,8 @@ import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { AppSidebar } from "@/components/app-sidebar"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { useAuth } from "@/contexts/AuthContext"
+import { useRouter } from "next/navigation"
 import { User, Lock, AlertTriangle, Eye, EyeOff } from "lucide-react"
 
 interface ProfileData {
@@ -33,12 +35,33 @@ interface PasswordErrors {
 }
 
 export default function AccountSettings() {
+  const { user, token, updateUser, logout } = useAuth()
+  const router = useRouter()
+
+  // Redirect if not logged in
+  useEffect(() => {
+    if (!user) {
+      router.push('/auth')
+    }
+  }, [user, router])
+
   // Profile state
   const [profileData, setProfileData] = useState<ProfileData>({
-    username: "Sarah Wijaya", // Mock current username
+    username: "", // Will be set from user data
   })
   const [profileErrors, setProfileErrors] = useState<ProfileErrors>({})
   const [isProfileSubmitting, setIsProfileSubmitting] = useState(false)
+
+  // Set initial profile data from user
+  useEffect(() => {
+    if (user) {
+      const userData = {
+        username: user.name || user.email || "",
+      }
+      setProfileData(userData)
+      setOriginalProfileData(userData)
+    }
+  }, [user])
 
   // Password state
   const [passwordData, setPasswordData] = useState<PasswordData>({
@@ -62,7 +85,7 @@ export default function AccountSettings() {
 
   // Add these state variables after the existing state declarations
   const [originalProfileData, setOriginalProfileData] = useState<ProfileData>({
-    username: "Sarah Wijaya", // This should match the initial profileData
+    username: "", // Will be set from user data
   })
   const [originalPasswordData] = useState<PasswordData>({
     currentPassword: "",
@@ -129,18 +152,35 @@ export default function AccountSettings() {
   const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!validateProfile()) return
+    if (!validateProfile() || !token) return
 
     setIsProfileSubmitting(true)
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-      console.log("Profile updated:", profileData)
-      // Show success message in real app
-      setOriginalProfileData({ ...profileData }) // Update original data to current data
+      const response = await fetch('/api/user/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          name: profileData.username.trim()
+        }),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        // Update local auth context
+        updateUser(data.data)
+        setOriginalProfileData({ ...profileData })
+        // You might want to show a success message here
+      } else {
+        setProfileErrors({ username: data.message })
+      }
     } catch (error) {
       console.error("Error updating profile:", error)
+      setProfileErrors({ username: 'Terjadi kesalahan jaringan' })
     } finally {
       setIsProfileSubmitting(false)
     }
@@ -150,22 +190,40 @@ export default function AccountSettings() {
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!validatePassword()) return
+    if (!validatePassword() || !token) return
 
     setIsPasswordSubmitting(true)
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-      console.log("Password updated")
-      // Clear form and show success message
-      setPasswordData({
-        currentPassword: "",
-        newPassword: "",
-        confirmNewPassword: "",
+      const response = await fetch('/api/auth/change-password', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          currentPassword: passwordData.currentPassword,
+          newPassword: passwordData.newPassword
+        }),
       })
+
+      const data = await response.json()
+
+      if (data.success) {
+        // Clear form and show success message
+        setPasswordData({
+          currentPassword: "",
+          newPassword: "",
+          confirmNewPassword: "",
+        })
+        setPasswordErrors({})
+        // You might want to show a success message here
+      } else {
+        setPasswordErrors({ currentPassword: data.message })
+      }
     } catch (error) {
       console.error("Error updating password:", error)
+      setPasswordErrors({ currentPassword: 'Terjadi kesalahan jaringan' })
     } finally {
       setIsPasswordSubmitting(false)
     }
@@ -173,7 +231,7 @@ export default function AccountSettings() {
 
   // Handle account deletion
   const handleDeleteAccount = async () => {
-    if (!deleteConfirmPassword) {
+    if (!deleteConfirmPassword || !token) {
       setDeleteError("Mohon masukkan kata sandi untuk konfirmasi")
       return
     }
@@ -182,13 +240,28 @@ export default function AccountSettings() {
     setDeleteError("")
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-      console.log("Account deleted")
-      // In real app, redirect to goodbye page or login
-      window.location.href = "/auth?message=account-deleted"
+      const response = await fetch('/api/user/delete', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          password: deleteConfirmPassword
+        }),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        // Logout user and redirect
+        logout()
+        router.push("/auth?message=account-deleted")
+      } else {
+        setDeleteError(data.message)
+      }
     } catch (error) {
-      setDeleteError("Kata sandi salah atau terjadi kesalahan")
+      setDeleteError("Terjadi kesalahan jaringan")
       console.error("Error deleting account:", error)
     } finally {
       setIsDeleting(false)
