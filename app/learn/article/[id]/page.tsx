@@ -10,61 +10,62 @@ import { useRouter } from "next/navigation"
 const articles = [
   {
     id: 1,
-    title: "5 Cara Efektif Mengelola Stres di Tempat Kerja",
+    title: "Pentingnya Menjaga Kesehatan Mental",
     author: "Tim RuangPena",
     publishDate: "28 Juni 2025",
-    readTime: "Bacaan 5 menit",
-    category: "Manajemen Stres",
-    headerImage: "/placeholder.svg?height=400&width=800",
-    content: `Stres adalah bagian tak terhindarkan dari kehidupan profesional modern. Namun, kunci untuk tidak tenggelam di dalamnya adalah dengan membangun strategi pengelolaan yang efektif.
+    readTime: "Bacaan 10 menit",
+    category: "Kesehatan Mental",
+    headerImage: "/article_thumnails.png",
+    content: `Kesehatan mental adalah aspek yang sering kali diabaikan dalam kehidupan sehari-hari, padahal sangat penting untuk kesejahteraan secara keseluruhan. Menjaga kesehatan mental sama pentingnya dengan menjaga kesehatan fisik. Nah ini adalah beberapa alasan mengapa kesehatan mental harus menjadi prioritas.
 
-## 1. Kenali Pemicu Stres Anda
+## 1. Meningkatkan Kualitas Hidup
 
-Langkah pertama adalah identifikasi. Apakah tenggat waktu yang ketat, beban kerja yang berlebihan, atau konflik dengan rekan kerja? Dengan mengetahui sumbernya, Anda bisa mulai mencari solusi yang tepat.
+Kesehatan mental yang baik berkontribusi pada kualitas hidup yang lebih tinggi. Ketika seseorang merasa seimbang secara emosional dan mental, mereka cenderung lebih bahagia, produktif, dan mampu menikmati hidup. Sebaliknya, masalah kesehatan mental dapat mengurangi kemampuan seseorang untuk menjalani aktivitas sehari-hari.
 
-Cobalah untuk mencatat situasi-situasi yang membuat Anda merasa tertekan selama seminggu. Pola yang muncul akan membantu Anda memahami trigger utama stres di tempat kerja.
+## 2. Mencegah Penyakit
 
-## 2. Terapkan Teknik 'Time Blocking'
+Stres dan masalah kesehatan mental dapat memicu berbagai penyakit fisik, seperti penyakit jantung, diabetes, dan gangguan sistem kekebalan tubuh. Dengan menjaga kesehatan mental, kita dapat mengurangi risiko terkena penyakit fisik yang serius.
 
-Alih-alih membuat to-do list yang panjang, alokasikan blok waktu spesifik untuk setiap tugas. Ini membantu mengurangi rasa kewalahan dan memberikan struktur pada hari Anda.
+## 3. Hubungan yang Lebih Baik
 
-Contoh penerapan time blocking:
-- 09:00-10:30: Fokus pada proyek utama
-- 10:30-10:45: Break dan peregangan
-- 10:45-12:00: Menjawab email dan komunikasi
-- 12:00-13:00: Istirahat makan siang
+Kesehatan mental yang baik memungkinkan seseorang untuk berinteraksi dengan orang lain secara positif. Ini meningkatkan kemampuan untuk membangun dan memelihara hubungan sosial yang sehat. Sebaliknya, masalah kesehatan mental dapat menyebabkan isolasi dan konflik dalam hubungan.
 
-## 3. Ambil Jeda Singkat Secara Teratur
+## 4. Produktivitas yang Tinggi
 
-Bekerja non-stop justru menurunkan produktivitas. Gunakan teknik Pomodoro (25 menit kerja, 5 menit istirahat) untuk menjaga pikiran tetap segar dan fokus.
+Individu dengan kesehatan mental yang baik cenderung lebih produktif di tempat kerja atau dalam studi. Mereka mampu berkonsentrasi, menyelesaikan tugas dengan efisien, dan berinovasi. Sebaliknya, masalah seperti kecemasan atau depresi dapat menghambat kinerja.
 
-Selama jeda 5 menit, cobalah:
-- Berdiri dan melakukan peregangan ringan
-- Melihat keluar jendela untuk mengistirahatkan mata
-- Melakukan pernapasan dalam selama beberapa kali
-- Minum air putih untuk menjaga hidrasi
+## 5. Keseimbangan Emosional
 
-## 4. Komunikasi yang Efektif
+Menjaga kesehatan mental membantu individu untuk lebih mampu mengatasi stres dan tantangan. Dengan strategi yang tepat, seperti meditasi, olahraga, atau terapi, seseorang dapat mengelola emosi mereka dengan lebih baik dan menghadapi masalah hidup dengan lebih tenang.
 
-Jangan ragu untuk berkomunikasi dengan atasan atau rekan kerja ketika merasa kewalahan. Seringkali, solusi bisa ditemukan melalui diskusi terbuka dan honest tentang beban kerja atau ekspektasi yang tidak realistis.
+## Cara Menjaga Kesehatan Mental
 
-Tips komunikasi yang efektif:
-- Sampaikan masalah dengan data konkret
-- Tawarkan solusi alternatif
-- Minta feedback dan saran
-- Tetap profesional dan konstruktif
+### 1. Berolahraga secara teratur
+Aktivitas fisik dapat meningkatkan mood dan mengurangi stres. Olahraga melepaskan endorfin yang dikenal sebagai "hormon bahagia" dan membantu mengurangi kadar kortisol (hormon stres) dalam tubuh.
 
-## 5. Ciptakan Ritual Transisi
+### 2. Tidur yang cukup
+Kualitas tidur yang baik sangat penting untuk kesehatan mental. Tidur yang cukup membantu otak memproses emosi dan informasi dengan lebih baik, serta memulihkan energi mental.
 
-Buat ritual sederhana untuk memisahkan waktu kerja dan waktu pribadi. Ini bisa berupa jalan kaki singkat setelah kerja, mendengarkan musik favorit, atau melakukan aktivitas yang Anda nikmati.
+### 3. Makan dengan baik
+Nutrisi yang seimbang berkontribusi pada kesehatan mental yang optimal. Makanan yang kaya akan omega-3, vitamin B, dan antioksidan dapat mendukung fungsi otak yang sehat.
 
-Ritual transisi membantu otak untuk "switch off" dari mode kerja dan mempersiapkan diri untuk waktu istirahat yang berkualitas.
+### 4. Berbicara dengan seseorang
+Jangan ragu untuk mencari dukungan dari teman, keluarga, atau profesional jika merasa tertekan. Berbagi perasaan dan pikiran dapat membantu mengurangi beban mental.
+
+### 5. Luangkan waktu untuk diri sendiri
+Aktivitas yang menyenangkan dan relaksasi sangat penting untuk menjaga keseimbangan mental. Ini bisa berupa hobi, meditasi, atau sekadar waktu untuk merefleksikan diri.
 
 ## Kesimpulan
 
-Mengelola stres di tempat kerja adalah keterampilan yang bisa dipelajari dan dikembangkan. Mulailah dengan satu atau dua teknik yang paling resonan dengan situasi Anda, lalu secara bertahap integrasikan strategi lainnya.
+Menjaga kesehatan mental adalah investasi yang sangat penting untuk kehidupan yang lebih baik. Dengan memahami dan menerapkan cara-cara untuk merawat kesehatan mental, kita tidak hanya meningkatkan kualitas hidup kita sendiri, tetapi juga dapat memberikan dampak positif bagi orang-orang di sekitar kita. Prioritaskan kesehatan mental Anda, karena itu adalah kunci untuk mencapai kebahagiaan dan kesejahteraan yang sejati.
 
-Ingatlah bahwa kesehatan mental Anda adalah prioritas. Jika stres terus berlanjut dan mengganggu kehidupan sehari-hari, jangan ragu untuk mencari bantuan profesional.`,
+## Kata Penutup
+
+Ingatlah, kesehatan mental bukanlah tujuan akhir, tetapi perjalanan yang harus kita jalani setiap hari. Saat kita merawat pikiran dan emosi, kita membuka pintu menuju kehidupan yang lebih cerah dan penuh makna. Jadi, yuk, bersama-sama kita jaga kesehatan mental kita! Jadikan setiap hari sebagai kesempatan untuk tumbuh, bersyukur, dan merayakan diri sendiri. Karena setiap langkah kecil menuju kesehatan mental yang baik adalah langkah besar menuju kebahagiaan! 🌟
+
+---
+
+*Artikel ini merupakan panduan umum tentang kesehatan mental. Jika Anda mengalami masalah kesehatan mental yang serius, disarankan untuk berkonsultasi dengan profesional kesehatan mental yang qualified.*`,
   },
   // Add more articles as needed
 ]
@@ -101,13 +102,41 @@ export default function ArticleDetail({ params }: ArticleDetailProps) {
     const paragraphs = content.split("\n\n")
 
     return paragraphs.map((paragraph, index) => {
-      // Handle headings
+      // Handle horizontal rule (---)
+      if (paragraph.trim() === "---") {
+        return <hr key={index} className="my-8 border-gray-200" />
+      }
+
+      // Handle h3 headings (###)
+      if (paragraph.startsWith("### ")) {
+        return (
+          <h3 key={index} className="text-lg sm:text-xl font-medium text-gray-900 mt-6 mb-3 first:mt-0">
+            {paragraph.replace("### ", "")}
+          </h3>
+        )
+      }
+
+      // Handle h2 headings (##)
       if (paragraph.startsWith("## ")) {
         return (
           <h2 key={index} className="text-xl sm:text-2xl font-medium text-gray-900 mt-8 mb-4 first:mt-0">
             {paragraph.replace("## ", "")}
           </h2>
         )
+      }
+
+      // Handle h1 headings (#)
+      if (paragraph.startsWith("# ")) {
+        return (
+          <h1 key={index} className="text-2xl sm:text-3xl font-medium text-gray-900 mt-8 mb-4 first:mt-0">
+            {paragraph.replace("# ", "")}
+          </h1>
+        )
+      }
+
+      // Handle italic text (*text*)
+      const formatText = (text: string) => {
+        return text.replace(/\*([^*]+)\*/g, '<em class="italic">$1</em>')
       }
 
       // Handle bullet points
@@ -121,17 +150,15 @@ export default function ArticleDetail({ params }: ArticleDetailProps) {
             {beforeList.map(
               (line, lineIndex) =>
                 line.trim() && (
-                  <p key={lineIndex} className="text-gray-800 leading-relaxed">
-                    {line}
-                  </p>
+                  <p key={lineIndex} className="text-gray-800 leading-relaxed"
+                     dangerouslySetInnerHTML={{ __html: formatText(line) }} />
                 ),
             )}
             {listItems.length > 0 && (
               <ul className="space-y-2 ml-6">
                 {listItems.map((item, itemIndex) => (
-                  <li key={itemIndex} className="text-gray-800 leading-relaxed list-disc">
-                    {item.replace("- ", "")}
-                  </li>
+                  <li key={itemIndex} className="text-gray-800 leading-relaxed list-disc"
+                      dangerouslySetInnerHTML={{ __html: formatText(item.replace("- ", "")) }} />
                 ))}
               </ul>
             )}
@@ -139,12 +166,42 @@ export default function ArticleDetail({ params }: ArticleDetailProps) {
         )
       }
 
+      // Handle numbered lists
+      if (/^\d+\./.test(paragraph)) {
+        const lines = paragraph.split("\n")
+        const listItems = lines.filter((line) => /^\d+\./.test(line))
+        const beforeList = lines.filter((line) => !/^\d+\./.test(line))
+
+        return (
+          <div key={index} className="space-y-4">
+            {beforeList.map(
+              (line, lineIndex) =>
+                line.trim() && (
+                  <p key={lineIndex} className="text-gray-800 leading-relaxed"
+                     dangerouslySetInnerHTML={{ __html: formatText(line) }} />
+                ),
+            )}
+            {listItems.length > 0 && (
+              <ol className="space-y-2 ml-6 list-decimal">
+                {listItems.map((item, itemIndex) => (
+                  <li key={itemIndex} className="text-gray-800 leading-relaxed"
+                      dangerouslySetInnerHTML={{ __html: formatText(item.replace(/^\d+\.\s*/, "")) }} />
+                ))}
+              </ol>
+            )}
+          </div>
+        )
+      }
+
       // Regular paragraphs
-      return (
-        <p key={index} className="text-gray-800 leading-relaxed mb-6 last:mb-0">
-          {paragraph}
-        </p>
-      )
+      if (paragraph.trim()) {
+        return (
+          <p key={index} className="text-gray-800 leading-relaxed mb-6 last:mb-0"
+             dangerouslySetInnerHTML={{ __html: formatText(paragraph) }} />
+        )
+      }
+
+      return null
     })
   }
 

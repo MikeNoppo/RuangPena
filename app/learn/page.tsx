@@ -14,131 +14,58 @@ import { BookOpen, Clock, Search, Filter, Tag, X, SortAsc, SortDesc, User, Calen
 const articles = [
   {
     id: 1,
-    title: "5 Cara Efektif Mengelola Stres di Tempat Kerja",
-    category: "Manajemen Stres",
-    categoryColor: "bg-blue-100 text-blue-700 border-blue-200",
-    readTime: "Bacaan 5 menit",
-    readTimeMinutes: 5,
-    snippet:
-      "Stres di lingkungan kerja adalah hal yang umum, namun ada langkah-langkah praktis yang bisa Anda ambil untuk menjaga keseimbangan dan produktivitas. Pelajari teknik manajemen stres yang terbukti efektif.",
-    publishDate: "15 Juni 2025",
-    dateObj: new Date(2025, 5, 15),
-    author: "Dr. Sarah Wijaya",
-    tags: ["stres", "kerja", "produktivitas", "keseimbangan", "manajemen"],
-    difficulty: "pemula",
-    featured: true,
-  },
-  {
-    id: 2,
-    title: "Membangun Rutinitas Mindfulness untuk Pemula",
-    category: "Mindfulness",
-    categoryColor: "bg-green-100 text-green-700 border-green-200",
-    readTime: "Bacaan 7 menit",
-    readTimeMinutes: 7,
-    snippet:
-      "Mindfulness bukan hanya tentang meditasi. Pelajari cara sederhana untuk mengintegrasikan kesadaran penuh dalam aktivitas sehari-hari Anda dan merasakan manfaatnya secara langsung.",
-    publishDate: "12 Juni 2025",
-    dateObj: new Date(2025, 5, 12),
-    author: "Prof. Ahmad Santoso",
-    tags: ["mindfulness", "meditasi", "kesadaran", "rutinitas", "pemula"],
-    difficulty: "pemula",
-    featured: false,
-  },
-  {
-    id: 3,
-    title: "Mengatasi Kecemasan dengan Teknik Pernapasan",
+    title: "Pentingnya Menjaga Kesehatan Mental",
     category: "Kesehatan Mental",
     categoryColor: "bg-purple-100 text-purple-700 border-purple-200",
-    readTime: "Bacaan 4 menit",
-    readTimeMinutes: 4,
+    readTime: "Bacaan 10 menit",
+    readTimeMinutes: 10,
     snippet:
-      "Teknik pernapasan yang tepat dapat menjadi alat yang powerful untuk menenangkan pikiran dan mengurangi gejala kecemasan secara alami. Praktik sederhana dengan hasil yang luar biasa.",
-    publishDate: "10 Juni 2025",
-    dateObj: new Date(2025, 5, 10),
-    author: "Dr. Maya Indira",
-    tags: ["kecemasan", "pernapasan", "relaksasi", "teknik", "alami"],
+      "Kesehatan mental adalah aspek yang sering kali diabaikan dalam kehidupan sehari-hari, padahal sangat penting untuk kesejahteraan secara keseluruhan. Menjaga kesehatan mental sama pentingnya dengan menjaga kesehatan fisik.",
+    publishDate: "28 Juni 2025",
+    dateObj: new Date(2025, 5, 28),
+    author: "Tim RuangPena",
+    tags: ["kesehatan mental", "kualitas hidup", "produktivitas", "hubungan", "keseimbangan emosional"],
     difficulty: "pemula",
     featured: true,
-  },
-  {
-    id: 4,
-    title: "Pentingnya Tidur Berkualitas untuk Kesehatan Mental",
-    category: "Gaya Hidup Sehat",
-    categoryColor: "bg-indigo-100 text-indigo-700 border-indigo-200",
-    readTime: "Bacaan 6 menit",
-    readTimeMinutes: 6,
-    snippet:
-      "Tidur yang berkualitas memiliki dampak langsung pada mood, konsentrasi, dan kemampuan mengelola emosi. Temukan tips untuk tidur yang lebih baik dan hidup yang lebih sehat.",
-    publishDate: "8 Juni 2025",
-    dateObj: new Date(2025, 5, 8),
-    author: "Dr. Budi Hartono",
-    tags: ["tidur", "kesehatan", "mood", "konsentrasi", "kualitas"],
-    difficulty: "menengah",
-    featured: false,
-  },
-  {
-    id: 5,
-    title: "Journaling sebagai Terapi: Panduan Lengkap",
-    category: "Terapi Menulis",
-    categoryColor: "bg-pink-100 text-pink-700 border-pink-200",
-    readTime: "Bacaan 8 menit",
-    readTimeMinutes: 8,
-    snippet:
-      "Menulis jurnal bukan hanya aktivitas biasa, tetapi dapat menjadi bentuk terapi yang efektif untuk memproses emosi dan meningkatkan self-awareness. Panduan komprehensif untuk memulai.",
-    publishDate: "5 Juni 2025",
-    dateObj: new Date(2025, 5, 5),
-    author: "Dr. Lisa Permata",
-    tags: ["journaling", "terapi", "emosi", "self-awareness", "menulis"],
-    difficulty: "menengah",
-    featured: true,
-  },
-  {
-    id: 6,
-    title: "Membangun Resiliensi Mental di Era Digital",
-    category: "Resiliensi",
-    categoryColor: "bg-orange-100 text-orange-700 border-orange-200",
-    readTime: "Bacaan 6 menit",
-    readTimeMinutes: 6,
-    snippet:
-      "Di era digital yang penuh distraksi, membangun ketahanan mental menjadi semakin penting. Pelajari strategi untuk tetap fokus dan seimbang di tengah hiruk pikuk teknologi.",
-    publishDate: "3 Juni 2025",
-    dateObj: new Date(2025, 5, 3),
-    author: "Dr. Andi Pratama",
-    tags: ["resiliensi", "digital", "fokus", "teknologi", "keseimbangan"],
-    difficulty: "lanjutan",
-    featured: false,
-  },
-  {
-    id: 7,
-    title: "Teknik Grounding untuk Mengatasi Panic Attack",
-    category: "Kesehatan Mental",
-    categoryColor: "bg-purple-100 text-purple-700 border-purple-200",
-    readTime: "Bacaan 5 menit",
-    readTimeMinutes: 5,
-    snippet:
-      "Panic attack bisa sangat menakutkan, tetapi teknik grounding dapat membantu Anda kembali ke momen sekarang. Pelajari metode 5-4-3-2-1 dan teknik lainnya yang terbukti efektif.",
-    publishDate: "1 Juni 2025",
-    dateObj: new Date(2025, 5, 1),
-    author: "Dr. Maya Indira",
-    tags: ["panic attack", "grounding", "teknik", "kecemasan", "darurat"],
-    difficulty: "menengah",
-    featured: false,
-  },
-  {
-    id: 8,
-    title: "Memahami dan Mengelola Burnout",
-    category: "Manajemen Stres",
-    categoryColor: "bg-blue-100 text-blue-700 border-blue-200",
-    readTime: "Bacaan 9 menit",
-    readTimeMinutes: 9,
-    snippet:
-      "Burnout adalah kondisi serius yang mempengaruhi banyak pekerja modern. Kenali tanda-tandanya dan pelajari strategi pemulihan yang efektif untuk kembali menemukan passion Anda.",
-    publishDate: "28 Mei 2025",
-    dateObj: new Date(2025, 4, 28),
-    author: "Dr. Sarah Wijaya",
-    tags: ["burnout", "kelelahan", "pemulihan", "passion", "kerja"],
-    difficulty: "lanjutan",
-    featured: true,
+    content: `# Pentingnya Menjaga Kesehatan Mental
+
+Kesehatan mental adalah aspek yang sering kali diabaikan dalam kehidupan sehari-hari, padahal sangat penting untuk kesejahteraan secara keseluruhan. Menjaga kesehatan mental sama pentingnya dengan menjaga kesehatan fisik. Nah ini adalah beberapa alasan mengapa kesehatan mental harus menjadi prioritas.
+
+## 1. Meningkatkan Kualitas Hidup
+
+Kesehatan mental yang baik berkontribusi pada kualitas hidup yang lebih tinggi. Ketika seseorang merasa seimbang secara emosional dan mental, mereka cenderung lebih bahagia, produktif, dan mampu menikmati hidup. Sebaliknya, masalah kesehatan mental dapat mengurangi kemampuan seseorang untuk menjalani aktivitas sehari-hari.
+
+## 2. Mencegah Penyakit
+
+Stres dan masalah kesehatan mental dapat memicu berbagai penyakit fisik, seperti penyakit jantung, diabetes, dan gangguan sistem kekebalan tubuh. Dengan menjaga kesehatan mental, kita dapat mengurangi risiko terkena penyakit fisik yang serius.
+
+## 3. Hubungan yang Lebih Baik
+
+Kesehatan mental yang baik memungkinkan seseorang untuk berinteraksi dengan orang lain secara positif. Ini meningkatkan kemampuan untuk membangun dan memelihara hubungan sosial yang sehat. Sebaliknya, masalah kesehatan mental dapat menyebabkan isolasi dan konflik dalam hubungan.
+
+## 4. Produktivitas yang Tinggi
+
+Individu dengan kesehatan mental yang baik cenderung lebih produktif di tempat kerja atau dalam studi. Mereka mampu berkonsentrasi, menyelesaikan tugas dengan efisien, dan berinovasi. Sebaliknya, masalah seperti kecemasan atau depresi dapat menghambat kinerja.
+
+## 5. Keseimbangan Emosional
+
+Menjaga kesehatan mental membantu individu untuk lebih mampu mengatasi stres dan tantangan. Dengan strategi yang tepat, seperti meditasi, olahraga, atau terapi, seseorang dapat mengelola emosi mereka dengan lebih baik dan menghadapi masalah hidup dengan lebih tenang.
+
+## Cara Menjaga Kesehatan Mental
+
+1. **Berolahraga secara teratur**: Aktivitas fisik dapat meningkatkan mood dan mengurangi stres.
+2. **Tidur yang cukup**: Kualitas tidur yang baik sangat penting untuk kesehatan mental.
+3. **Makan dengan baik**: Nutrisi yang seimbang berkontribusi pada kesehatan mental yang optimal.
+4. **Berbicara dengan seseorang**: Jangan ragu untuk mencari dukungan dari teman, keluarga, atau profesional jika merasa tertekan.
+5. **Luangkan waktu untuk diri sendiri**: Aktivitas yang menyenangkan dan relaksasi sangat penting untuk menjaga keseimbangan mental.
+
+## Kesimpulan
+
+Menjaga kesehatan mental adalah investasi yang sangat penting untuk kehidupan yang lebih baik. Dengan memahami dan menerapkan cara-cara untuk merawat kesehatan mental, kita tidak hanya meningkatkan kualitas hidup kita sendiri, tetapi juga dapat memberikan dampak positif bagi orang-orang di sekitar kita. Prioritaskan kesehatan mental Anda, karena itu adalah kunci untuk mencapai kebahagiaan dan kesejahteraan yang sejati.
+
+## Kata Penutup
+
+Ingatlah, kesehatan mental bukanlah tujuan akhir, tetapi perjalanan yang harus kita jalani setiap hari. Saat kita merawat pikiran dan emosi, kita membuka pintu menuju kehidupan yang lebih cerah dan penuh makna. Jadi, yuk, bersama-sama kita jaga kesehatan mental kita! Jadikan setiap hari sebagai kesempatan untuk tumbuh, bersyukur, dan merayakan diri sendiri. Karena setiap langkah kecil menuju kesehatan mental yang baik adalah langkah besar menuju kebahagiaan! 🌟`
   },
 ]
 
