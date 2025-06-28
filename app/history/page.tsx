@@ -21,7 +21,7 @@ import { id } from "date-fns/locale"
 type SortOption = "date-desc" | "date-asc" | "title-asc" | "title-desc"
 
 export default function HistoryPage() {
-  const { user, token } = useAuth()
+  const { user, token, loading: authLoading } = useAuth()
   const router = useRouter()
   const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([])
   const [loading, setLoading] = useState(true)
@@ -31,18 +31,22 @@ export default function HistoryPage() {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc")
   const [sortBy, setSortBy] = useState<SortOption>("date-desc")
 
-  // Redirect if not logged in
+  // Redirect if not logged in, fetch data if logged in
   useEffect(() => {
-    if (!user) {
-      router.push('/auth')
-      return
+    if (!authLoading) {
+      if (user) {
+        fetchJournals()
+      } else {
+        router.push('/auth')
+      }
     }
-    
-    fetchJournals()
-  }, [user, router, token])
+  }, [user, authLoading, router])
 
   const fetchJournals = async () => {
-    if (!token) return
+    if (!token) {
+      setLoading(false)
+      return
+    }
     
     setLoading(true)
     try {
@@ -179,6 +183,14 @@ export default function HistoryPage() {
   // Check if this is truly empty (no entries at all) vs filtered empty
   const isCompletelyEmpty = journalEntries.length === 0 && !loading
   const isFilteredEmpty = filteredAndSortedJournals.length === 0 && journalEntries.length > 0 && !loading
+
+  if (authLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <SkeletonLoader className="w-full h-full" />
+      </div>
+    )
+  }
 
   if (!user) {
     return null // Will redirect in useEffect

@@ -1,7 +1,8 @@
 "use client"
 
-import React, { createContext, useContext, useState, useEffect } from 'react'
-import { User, AuthResponse } from '@/lib/types'
+import React, { createContext, useContext, useState, useEffect } from "react"
+import { User, AuthResponse } from "@/lib/types"
+import { getCookie, setCookie, deleteCookie } from "cookies-next"
 
 interface AuthContextType {
   user: Omit<User, 'password'> | null
@@ -20,26 +21,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
-  // Load user from localStorage on mount
+  // Load user from cookies on mount
   useEffect(() => {
-    const savedToken = localStorage.getItem('token')
-    const savedUser = localStorage.getItem('user')
-    
+    console.log("AuthContext: Initializing and loading user from cookies...")
+    const savedToken = getCookie("token") as string | undefined
+    const savedUser = getCookie("user") as string | undefined
+    console.log("AuthContext: Token from cookie:", savedToken)
+    console.log("AuthContext: User data from cookie:", savedUser)
+
     if (savedToken && savedUser) {
       try {
+        const parsedUser = JSON.parse(savedUser)
         setToken(savedToken)
-        setUser(JSON.parse(savedUser))
+        setUser(parsedUser)
+        console.log("AuthContext: User state successfully restored from cookies.", parsedUser)
       } catch (error) {
+        console.error("AuthContext: Error parsing user data from cookie. Clearing invalid data.", error)
         // Clear invalid data
-        localStorage.removeItem('token')
-        localStorage.removeItem('user')
+        deleteCookie("token")
+        deleteCookie("user")
       }
+    } else {
+      console.log("AuthContext: No valid token or user data found in cookies.")
     }
-    
+
     setLoading(false)
+    console.log("AuthContext: Initial loading finished.")
   }, [])
 
-  const login = async (email: string, password: string): Promise<AuthResponse> => {
+  const login = async (
+    email: string,
+    password: string,
+  ): Promise<AuthResponse> => {
+    console.log(`AuthContext: Attempting to login user: ${email}`)
     try {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -52,14 +66,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const data: AuthResponse = await response.json()
 
       if (data.success && data.user && data.token) {
+        console.log("AuthContext: Login successful. Setting user state and cookies.", data.user)
         setUser(data.user)
         setToken(data.token)
-        localStorage.setItem('token', data.token)
-        localStorage.setItem('user', JSON.stringify(data.user))
+        setCookie("token", data.token)
+        setCookie("user", JSON.stringify(data.user))
+      } else {
+        console.warn("AuthContext: Login API call was not successful.", data.message)
       }
 
       return data
     } catch (error) {
+      console.error("AuthContext: Network or unexpected error during login.", error)
       return {
         success: false,
         message: 'Terjadi kesalahan jaringan'
@@ -71,7 +89,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     email: string, 
     password: string, 
     confirmPassword: string, 
-    name?: string
+    name?: string,
   ): Promise<AuthResponse> => {
     try {
       const response = await fetch('/api/auth/register', {
@@ -87,8 +105,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (data.success && data.user && data.token) {
         setUser(data.user)
         setToken(data.token)
-        localStorage.setItem('token', data.token)
-        localStorage.setItem('user', JSON.stringify(data.user))
+        setCookie("token", data.token)
+        setCookie("user", JSON.stringify(data.user))
       }
 
       return data
@@ -100,19 +118,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const updateUser = (userData: Partial<Omit<User, 'password'>>) => {
+  const updateUser = (userData: Partial<Omit<User, "password">>) => {
     if (user) {
       const updatedUser = { ...user, ...userData }
       setUser(updatedUser)
-      localStorage.setItem('user', JSON.stringify(updatedUser))
+      setCookie("user", JSON.stringify(updatedUser))
     }
   }
 
   const logout = () => {
+    console.log("AuthContext: Logging out user and clearing cookies.")
     setUser(null)
     setToken(null)
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
+    deleteCookie("token")
+    deleteCookie("user")
   }
 
   return (

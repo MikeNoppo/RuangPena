@@ -39,7 +39,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       isActive: pathname === "/dashboard",
     },
     {
-      title: "Entri Baru",
+      title: "Jurnal Baru",
       url: "/journal/new",
       icon: PenTool,
       isActive: pathname === "/journal/new",

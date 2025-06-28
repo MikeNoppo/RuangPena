@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { AppSidebar } from "@/components/app-sidebar"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { SkeletonLoader } from "@/components/skeleton-loader"
 import { useAuth } from "@/contexts/AuthContext"
 import { useRouter } from "next/navigation"
 import { User, Lock, AlertTriangle, Eye, EyeOff } from "lucide-react"
@@ -35,15 +36,17 @@ interface PasswordErrors {
 }
 
 export default function AccountSettings() {
-  const { user, token, updateUser, logout } = useAuth()
+  const { user, token, updateUser, logout, loading: authLoading } = useAuth()
   const router = useRouter()
 
   // Redirect if not logged in
   useEffect(() => {
-    if (!user) {
-      router.push('/auth')
+    if (!authLoading) {
+      if (!user) {
+        router.push('/auth')
+      }
     }
-  }, [user, router])
+  }, [user, authLoading, router])
 
   // Profile state
   const [profileData, setProfileData] = useState<ProfileData>({
@@ -284,6 +287,18 @@ export default function AccountSettings() {
 
   const togglePasswordVisibility = (field: "current" | "new" | "confirm") => {
     setShowPasswords((prev) => ({ ...prev, [field]: !prev[field] }))
+  }
+
+  if (authLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <SkeletonLoader className="w-full h-full" />
+      </div>
+    )
+  }
+
+  if (!user) {
+    return null // Will redirect in useEffect
   }
 
   return (

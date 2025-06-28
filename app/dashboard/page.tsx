@@ -12,6 +12,7 @@ import { JournalEntry, ApiResponse } from "@/lib/types"
 import { JournalType } from "@prisma/client"
 import { formatDistanceToNow } from "date-fns"
 import { id } from "date-fns/locale"
+import { SkeletonLoader } from "@/components/skeleton-loader"
 
 // Dashboard shortcuts
 const shortcuts = [
@@ -58,7 +59,7 @@ function getGreeting() {
 }
 
 export default function Dashboard() {
-  const { user, token } = useAuth()
+  const { user, token, loading: authLoading } = useAuth()
   const router = useRouter()
   const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([])
   const [loading, setLoading] = useState(true)
@@ -66,13 +67,14 @@ export default function Dashboard() {
 
   // Redirect if not logged in
   useEffect(() => {
-    if (!user) {
-      router.push('/auth')
-      return
+    if (!authLoading) {
+      if (!user) {
+        router.push('/auth');
+      } else {
+        fetchJournals();
+      }
     }
-    
-    fetchJournals()
-  }, [user, router, token])
+  }, [user, authLoading, router, token]);
 
   useEffect(() => {
     setGreeting(getGreeting())
@@ -98,6 +100,10 @@ export default function Dashboard() {
     } finally {
       setLoading(false)
     }
+  }
+
+  if (authLoading) {
+    return <SkeletonLoader />;
   }
 
   const getLastEntryText = () => {
@@ -207,7 +213,7 @@ export default function Dashboard() {
           <SidebarTrigger className="-ml-1" />
           <div className="ml-auto flex items-center gap-2 sm:gap-4">
             <div className="text-xs sm:text-sm text-gray-600">
-              Entri terakhir: <span className="font-medium">{loading ? "..." : getLastEntryText()}</span>
+              Jurnal terakhir: <span className="font-medium">{loading ? "..." : getLastEntryText()}</span>
             </div>
             <Button 
               size="sm" 
@@ -215,7 +221,7 @@ export default function Dashboard() {
               onClick={() => router.push('/journal/new')}
             >
               <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">Entri Cepat</span>
+              <span className="hidden sm:inline">Tulis Jurnal</span>
               <span className="sm:hidden">Entri</span>
             </Button>
           </div>
