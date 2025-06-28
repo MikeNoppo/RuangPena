@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -166,7 +168,7 @@ export default function JournalForm() {
           <div>
             <Input
               type="text"
-              placeholder="Judul entri (opsional)"
+              placeholder="Judul jurnal (opsional)"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className="border-0 border-b border-gray-200 rounded-none px-0 text-xl font-light placeholder:text-gray-400 focus:ring-0 focus:border-gray-400 bg-transparent whitespace-normal break-words overflow-wrap-anywhere min-h-[2.5rem]"
