@@ -39,9 +39,9 @@ export function SiteHeader() {
 							</h1>
 						</div>
 
-						{/* Desktop Navigation */}
-						<div className="desktop-nav hidden md:block">
-							<div className="flex items-baseline space-x-8 ml-[635px] mr-[-186px]">
+						{/* Desktop Navigation & Auth Actions */}
+						<div className="hidden md:flex items-center space-x-8">
+							<div className="flex items-baseline space-x-8">
 								{navigationLinks.map((link) => (
 									<button
 										key={link.href}
@@ -54,10 +54,6 @@ export function SiteHeader() {
 									</button>
 								))}
 							</div>
-						</div>
-
-						{/* Desktop Auth Actions */}
-						<div className="desktop-auth hidden md:flex items-center space-x-4">
 							<Button
 								asChild
 								className="cta-button bg-teal-600 hover:bg-teal-700 text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
