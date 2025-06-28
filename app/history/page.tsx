@@ -5,8 +5,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Calendar } from "@/components/ui/calendar"
 import { Badge } from "@/components/ui/badge"
 import { AppSidebar } from "@/components/app-sidebar"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
@@ -16,9 +14,8 @@ import { useAuth } from "@/contexts/AuthContext"
 import { useRouter } from "next/navigation"
 import { JournalEntry, ApiResponse } from "@/lib/types"
 import { cn } from "@/lib/utils"
-import { useCalendarData } from "@/hooks/use-calendar"
-import { BookOpen, Heart, Moon, Target, Search, CalendarIcon, Filter, X, SortAsc, SortDesc } from "lucide-react"
-import { format, isSameDay } from "date-fns"
+import { BookOpen, Heart, Moon, Target, Search, Filter, X, SortAsc, SortDesc } from "lucide-react"
+import { format } from "date-fns"
 import { id } from "date-fns/locale"
 
 export default function HistoryPage() {
@@ -30,12 +27,6 @@ export default function HistoryPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [filterType, setFilterType] = useState<string>("all")
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc")
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
-  const [showCalendar, setShowCalendar] = useState(false)
-  const [hoveredDate, setHoveredDate] = useState<Date | undefined>(undefined)
-
-  // Use calendar data hook
-  const { hasJournalEntry, getJournalCountForDate, formatCalendarDate } = useCalendarData(journalEntries)
 
   // Redirect if not logged in
   useEffect(() => {
@@ -128,15 +119,6 @@ export default function HistoryPage() {
       filtered = filtered.filter(entry => entry.type === filterType)
     }
 
-    // Filter by date
-    if (selectedDate) {
-      const selectedDateStr = format(selectedDate, 'yyyy-MM-dd')
-      filtered = filtered.filter(entry => {
-        const entryDate = format(new Date(entry.createdAt), 'yyyy-MM-dd')
-        return entryDate === selectedDateStr
-      })
-    }
-
     // Sort
     filtered.sort((a, b) => {
       const dateA = new Date(a.createdAt).getTime()
@@ -145,25 +127,13 @@ export default function HistoryPage() {
     })
 
     return filtered
-  }, [journalEntries, searchQuery, filterType, selectedDate, sortOrder])
-
-  // Prepare date indicators for calendar
-  const dateIndicators = useMemo(() => {
-    const indicators: Record<string, number> = {}
-    journalEntries.forEach(entry => {
-      const dateKey = formatCalendarDate(new Date(entry.createdAt))
-      indicators[dateKey] = (indicators[dateKey] || 0) + 1
-    })
-    return indicators
-  }, [journalEntries, formatCalendarDate])
+  }, [journalEntries, searchQuery, filterType, sortOrder])
 
   // Clear all filters
   const clearAllFilters = () => {
     setSearchQuery("")
     setFilterType("all")
-    setSelectedDate(undefined)
     setSortOrder("desc")
-    setShowCalendar(false)
   }
 
   // Get active filter count
@@ -171,9 +141,8 @@ export default function HistoryPage() {
     let count = 0
     if (searchQuery.trim()) count++
     if (filterType !== "all") count++
-    if (selectedDate) count++
     return count
-  }, [searchQuery, filterType, selectedDate])
+  }, [searchQuery, filterType])
 
   if (!user) {
     return null // Will redirect in useEffect
@@ -224,61 +193,6 @@ export default function HistoryPage() {
                       <SelectItem value="bullet">Jurnal Bullet</SelectItem>
                     </SelectContent>
                   </Select>
-
-                  {/* Date Filter */}
-                  <div className="flex items-center gap-1">
-                    <Popover open={showCalendar} onOpenChange={setShowCalendar}>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-40 justify-start text-left font-normal transition-all duration-200",
-                            selectedDate 
-                              ? "bg-teal-50 border-teal-300 text-teal-700 hover:bg-teal-100" 
-                              : "hover:bg-teal-50 hover:border-teal-300 hover:text-teal-700"
-                          )}
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {selectedDate ? format(selectedDate, 'dd MMM yyyy', { locale: id }) : 'Pilih tanggal'}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0 border-0 shadow-lg bg-transparent" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={selectedDate}
-                          onSelect={(date) => {
-                            setSelectedDate(date)
-                            setShowCalendar(false)
-                          }}
-                          onDateHover={setHoveredDate}
-                          dateIndicators={dateIndicators}
-                          initialFocus
-                        />
-                        {hoveredDate && dateIndicators[formatCalendarDate(hoveredDate)] > 0 && (
-                          <div className="p-3 bg-white border-t border-gray-100 text-sm text-gray-600 rounded-b-lg">
-                            <div className="font-medium text-gray-900">
-                              {format(hoveredDate, 'dd MMMM yyyy', { locale: id })}
-                            </div>
-                            <div className="text-xs text-teal-600 flex items-center gap-1 mt-1">
-                              <div className="w-2 h-2 bg-teal-500 rounded-full"></div>
-                              {dateIndicators[formatCalendarDate(hoveredDate)]} entri jurnal
-                            </div>
-                          </div>
-                        )}
-                      </PopoverContent>
-                    </Popover>
-                    {selectedDate && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setSelectedDate(undefined)}
-                        className="px-2 h-8 text-gray-400 hover:text-gray-600 hover:bg-gray-100"
-                        title="Hapus filter tanggal"
-                      >
-                        <X className="h-3 w-3" />
-                      </Button>
-                    )}
-                  </div>
 
                   {/* Sort Order */}
                   <Button
